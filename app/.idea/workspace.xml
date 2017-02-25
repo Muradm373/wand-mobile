@@ -10,144 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49277795-2167-4101-bab2-c291798c13b8" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/taskArtifacts/cache.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2.1/taskArtifacts/cache.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2/taskArtifacts/cache.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2/taskArtifacts/cache.properties.lock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2/taskArtifacts/fileHashes.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2/taskArtifacts/fileSnapshots.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2/taskArtifacts/outputFileStates.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.gradle/2.2/taskArtifacts/taskArtifacts.bin" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/gradle.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/libraries/library_2_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/libraries/library_3_0_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/libraries/support_v4_19_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/app.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build.gradle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/generated/source/buildConfig/androidTest/debug/com/phatware/android/recotest/test/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/generated/source/buildConfig/debug/com/phatware/android/recotest/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/generated/source/r/debug/com/phatware/android/recotest/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/generated/source/r/debug/com/sothree/slidinguppanel/library/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/multi/values.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/drawable-hdpi.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/drawable-ldpi.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/drawable-mdpi.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/drawable.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/layout.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/blame/res/debug/single/xml.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/R.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/jars/classes.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/drawable/above_shadow.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/drawable/below_shadow.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/values/values.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental-safeguard/debug/tag.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/compileDebugAidl/dependency.store" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/compileDebugAndroidTestAidl/dependency.store" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/mergeDebugAndroidTestResources/compile-file-map.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/manifest/androidTest/debug/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/reoundedimage.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/ink.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/settings.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/share.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/text.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-ldpi/icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable-mdpi/icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable/above_shadow.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/drawable/below_shadow.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/layout/componentcolor.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/layout/main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/values/values.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/merged/debug/xml/preferences.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/res/resources-debug.ap_" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/intermediates/symbols/debug/R.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/obj/local/arm64-v8a/objs/WritePadReco/interface.o.d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Brazilian.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Danish.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Dutch.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/English.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/EnglishUK.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Finnish.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/French.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/German.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Indonesian.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Italian.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/MedicalUS.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Norwegian.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Portuguese.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Spanish.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/assets/Swedish.dct" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/DrawAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/CustomAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/IOUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/MainSettings.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/RecoInterface/WritePadAPI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/WritePadFlagManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/WritePadManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/recotest/InkView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/recotest/RecognizerService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/java/com/phatware/android/recotest/Wand.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/jni/Android.mk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/jni/Application.mk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/jni/interface.c" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/ink.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/reoundedimage.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/settings.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/share.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-hdpi/text.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-ldpi/icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/drawable-mdpi/icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/layout/componentcolor.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/layout/main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/values/colors.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/app/src/main/res/xml/preferences.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/build.gradle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/build/generated/mockable-android-19.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/build/generated/mockable-android-25.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/build/intermediates/dex-cache/cache.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/gradle.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/gradle/wrapper/gradle-wrapper.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/gradle/wrapper/gradle-wrapper.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/gradlew.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/local.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/sample_astudio.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../sample_astudio/settings.gradle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../WritePad.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/workspace.xml" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="sample_astudio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -179,31 +53,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="111">
               <caret line="10" column="24" lean-forward="false" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.iml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app.iml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CustomAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/CustomAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="37" column="27" lean-forward="false" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -1870,11 +1724,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sample_astudio" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1882,11 +1739,88 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jni" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2400,7 +2334,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method />
     </configuration>
-    <configuration default="false" name="app-app" type="AndroidRunConfigurationType" factoryName="Android App">
+    <configuration default="false" name="app-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="app-app" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
@@ -2519,11 +2453,13 @@
       <workItem from="1488033642393" duration="733000" />
       <workItem from="1488036867891" duration="952000" />
       <workItem from="1488037854313" duration="27000" />
+      <workItem from="1488037945337" duration="234000" />
+      <workItem from="1488038248305" duration="140000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3632000" />
+    <option name="totallyTimeSpent" value="4006000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -2543,16 +2479,16 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498618" sideWeight="0.5341615" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.55906147" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.01875" sideWeight="0.73867315" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47807932" sideWeight="0.73867315" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928804" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.49676377" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32776618" sideWeight="0.3656958" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2599,13 +2535,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/CustomAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="92" column="41" lean-forward="false" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -2859,14 +2788,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="77" lean-forward="false" selection-start-line="11" selection-start-column="77" selection-end-line="11" selection-end-column="77" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/recotest/InkView.java">
@@ -2897,17 +2826,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/interface.c">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/DrawAdapter.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/IOUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2835">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-866">
+          <caret line="46" column="7" lean-forward="true" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/jni/Android.mk">
+    <entry file="file://$PROJECT_DIR$/sample_astudio.iml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/CustomAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="31" lean-forward="false" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
+        <state relative-caret-position="390">
+          <caret line="37" column="27" lean-forward="false" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/RecoInterface/WritePadAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2918,23 +2856,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/DrawAdapter.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/IOUtils.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/Android.mk">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-866">
-          <caret line="46" column="7" lean-forward="true" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
+        <state relative-caret-position="450">
+          <caret line="30" column="31" lean-forward="false" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/phatware/android/CustomAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/jni/interface.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="37" column="27" lean-forward="false" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="-1440">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample_astudio.iml">
+    <entry file="file://$PROJECT_DIR$/app.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2944,16 +2880,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
+        <state relative-caret-position="111">
           <caret line="10" column="24" lean-forward="false" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

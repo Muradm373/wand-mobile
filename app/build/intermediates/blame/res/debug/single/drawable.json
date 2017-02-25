@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\muradm373\\Downloads\\WritePadSDK-master\\Android\\sample_astudio\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\above_shadow.xml",
+        "source": "C:\\Users\\muradm373\\Downloads\\WritePadSDK-master\\Android\\sample_astudio\\app\\build\\intermediates\\exploded-aar\\com.sothree.slidinguppanel\\library\\3.0.0\\res\\drawable\\above_shadow.xml"
+    },
+    {
+        "merged": "C:\\Users\\muradm373\\Downloads\\WritePadSDK-master\\Android\\sample_astudio\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\below_shadow.xml",
+        "source": "C:\\Users\\muradm373\\Downloads\\WritePadSDK-master\\Android\\sample_astudio\\app\\build\\intermediates\\exploded-aar\\com.sothree.slidinguppanel\\library\\3.0.0\\res\\drawable\\below_shadow.xml"
+    }
+]

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:weightSum="1">
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sliding_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            sothree:umanoDragView="@+id/dragView"
+            sothree:umanoOverlay="true"
+            sothree:umanoPanelHeight="5dp"
+            sothree:umanoParalaxOffset="113dp"
+            sothree:umanoFadeColor="#FFFFFF"
+            sothree:umanoShadowHeight="4dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <com.phatware.android.recotest.InkView
+
+                    android:id="@+id/ink_view"
+                    android:background="@color/white"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="350dp" >
+                <RelativeLayout
+                    android:layout_height="5dp"
+                    android:layout_width="match_parent"
+                    android:background="@color/indigo"
+                    android:id="@+id/layoutline"
+                    />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="17dp"
+                    android:text="Color:"
+                    android:id="@+id/colorTextView"/>
+                <GridView
+                    android:layout_below="@id/colorTextView"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="5dp"
+                    android:verticalSpacing="10dp"
+                    android:numColumns="6"
+                    android:stretchMode="columnWidth"
+                    android:id="@+id/gridView">
+
+                </GridView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_below="@id/gridView"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="17dp"
+                    android:text="Text Path:"
+                    android:id="@+id/textTextView"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textTextView"
+                    android:text="/sdcard/Documents"
+                    android:id="@+id/textPathTextView"
+                    android:onClick="setTextFilePath"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="40dp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_below="@id/textPathTextView"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="17dp"
+                    android:text="Picture Path:"
+                    android:id="@+id/pictureTextView"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pictureTextView"
+                    android:text="/sdcard/Pictures"
+                    android:id="@+id/picturePathTextView"
+                    android:onClick="setPictureFilePath"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="40dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_below="@id/picturePathTextView"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="17dp"
+                    android:text="Wand:"
+                    android:id="@+id/wandBluetoothText"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/wandBluetoothText"
+                    android:text="none"
+                    android:id="@+id/wandBluetooth"
+                    android:onClick="findWand"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="40dp"/>
+
+            </RelativeLayout>
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="swapToText"
+        android:id="@+id/headerLayout"
+        android:background="@color/indigo">
+
+        <Button
+        android:layout_width="60px"
+        android:layout_height="120px"
+        android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/settings"
+        android:id="@+id/button"
+        android:onClick="onSettingsClick"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="100px"
+            android:layout_height="70px"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/ink"/>
+        <ImageView
+            android:layout_width="118px"
+            android:layout_height="70px"
+            android:visibility="invisible"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/imageView2"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/text"/>
+
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cool"
+        android:linksClickable="true"
+        android:autoLink="all"
+        android:visibility="invisible"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="72dp" />
+</RelativeLayout>

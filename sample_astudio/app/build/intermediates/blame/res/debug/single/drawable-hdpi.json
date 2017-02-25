@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/logo.png",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/drawable-hdpi/logo.png"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/logo.png",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/drawable-hdpi/logo.png"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/settings.png",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/drawable-hdpi/settings.png"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/ink.png",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/drawable-hdpi/ink.png"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/icon.png",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/drawable-hdpi/icon.png"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/settings.png",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/drawable-hdpi/settings.png"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/text.png",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/drawable-hdpi/text.png"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/text.png",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/drawable-hdpi/text.png"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/share.png",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/drawable-hdpi/share.png"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/ink.png",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/drawable-hdpi/ink.png"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/share.png",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/drawable-hdpi/share.png"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable-hdpi/icon.png",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/drawable-hdpi/icon.png"
+    }
+]

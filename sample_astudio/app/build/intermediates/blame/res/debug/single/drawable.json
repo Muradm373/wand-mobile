@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable/below_shadow.xml",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/drawable/below_shadow.xml"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable/below_shadow.xml",
+        "source": "/home/emil/Downloads/sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/drawable/below_shadow.xml"
+    },
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/drawable/above_shadow.xml",
+        "source": "/home/emil/Downloads/sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/drawable/above_shadow.xml"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/drawable/above_shadow.xml",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/exploded-aar/com.sothree.slidinguppanel/library/3.0.0/res/drawable/above_shadow.xml"
+    }
+]

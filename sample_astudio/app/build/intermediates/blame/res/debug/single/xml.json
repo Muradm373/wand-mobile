@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/emil/Downloads/sample_astudio/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/home/emil/Downloads/sample_astudio/app/src/main/res/xml/preferences.xml"
+    },
+    {
+        "merged": "/home/emil/IdeaProjects/Android/sample_astudio/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/home/emil/IdeaProjects/Android/sample_astudio/app/src/main/res/xml/preferences.xml"
+    }
+]

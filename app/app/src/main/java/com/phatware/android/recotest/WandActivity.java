@@ -13,10 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.view.Display;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
 import android.widget.*;
 import com.phatware.android.CustomAdapter;
 import com.phatware.android.WritePadFlagManager;
@@ -31,10 +29,18 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.phatware.android.RecoInterface.WritePadAPI.TAG;
 
-public class Wand extends Activity {
-    private static final UUID MY_UUID =
-            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+public class WandActivity extends Activity {
+
+    private static final int SENSOR_DELAY = 33;//ms
+
+    private ConnectedThread mConnectedThread;
+    Handler mHandler;
+    private StringBuilder sb = new StringBuilder();
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     private static final int CLEAR_MENU_ID = Menu.FIRST + 1;
     private static final int SETTINGS_MENU_ID = Menu.FIRST + 2;
     public boolean state = false;
@@ -54,23 +60,14 @@ public class Wand extends Activity {
     private boolean visib = true;
     private ServiceConnection mConnection;
 
-    @Override
-    protected void onResume() {
-        if (inkView != null) {
-            inkView.cleanView(true);
-        }
-
-        WritePadFlagManager.initialize(this);
-        super.onResume();
-    }
+    private long mPrevTouch = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        ArrayList<Integer> colorList = new ArrayList<Integer>();
+        ArrayList<Integer> colorList = new ArrayList<>();
         {
-
             colorList.add(getResources().getColor(R.color.green));
             colorList.add(getResources().getColor(R.color.light_green));
             colorList.add(getResources().getColor(R.color.lime));
@@ -108,7 +105,6 @@ public class Wand extends Activity {
         int textViewHeight = 15 * screenHeight / 100;
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, textViewHeight);
 
-
         inkView.setRecognizedTextContainer(textView);
 
         mConnection = new ServiceConnection() {
@@ -131,8 +127,120 @@ public class Wand extends Activity {
             }
         };
 
-        bindService(new Intent(Wand.this,
+        bindService(new Intent(WandActivity.this,
                 RecognizerService.class), mConnection, Context.BIND_AUTO_CREATE);
+
+        mHandler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                String sbprint = (String) msg.obj;
+
+                Log.d("BT1", sbprint);
+
+                String[] spl = sbprint.split(" ");
+                if (spl.length == 2) {
+                    try {
+                        long x = Long.parseLong(spl[0]);
+                        long y = Long.parseLong(spl[1]);
+
+                        long downTime = 0;
+                        long now = System.currentTimeMillis();
+
+                        if (mPrevTouch == 0) mPrevTouch = now;
+
+                        downTime = now - mPrevTouch;
+
+                        int action = MotionEvent.ACTION_MOVE;
+
+                        //TODO work on this part
+                        if (downTime > SENSOR_DELAY * 2) {
+                            action = MotionEvent.ACTION_UP;
+                        }
+
+                        inkView.onTouchEvent(MotionEvent.obtain(downTime, now, action, x / 10f, y / 10f, 0));
+
+                        mPrevTouch = now;
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+            }
+        };
+    }
+
+    private void errorExit(String title, String message) {
+        Toast.makeText(getBaseContext(), title + " - " + message, Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    public void findWand(View v) {
+        BluetoothDevice device = null;
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null) {
+
+            Toast.makeText(getApplicationContext(), "Device doesn't Support Bluetooth :(", Toast.LENGTH_SHORT).show();
+        }
+        if (!bluetoothAdapter.isEnabled()) {
+
+            Intent enableAdapter = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+            startActivityForResult(enableAdapter, 0);
+
+        }
+
+        Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
+
+        if (bondedDevices.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please Pair the Device first", Toast.LENGTH_SHORT).show();
+        } else {
+            for (BluetoothDevice iterator : bondedDevices) {
+
+                Log.i("name", iterator.getName());
+                if (iterator.getName().equals("SPP-CA")) {
+                    device = iterator; //device is an object of type BluetoothDevice
+                    break;
+                }
+            }
+        }
+
+        if (device != null) {
+            try {
+                socket = device.createRfcommSocketToServiceRecord(MY_UUID);
+            } catch (IOException e) {
+                errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
+            }
+
+            try {
+                socket.connect();
+                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                try {
+                    socket.close();
+                } catch (IOException e2) {
+                    errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
+                }
+            }
+
+            if(mConnectedThread!=null) {
+                mConnectedThread.cancel();
+                mConnectedThread = null;
+            }
+
+            mConnectedThread = new ConnectedThread(socket);
+            mConnectedThread.start();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        if (inkView != null) {
+            inkView.cleanView(true);
+        }
+
+        WritePadFlagManager.initialize(this);
+
+        super.onResume();
+
+        findWand(null);
     }
 
     public void setTextFilePath(View v) {
@@ -185,7 +293,7 @@ public class Wand extends Activity {
         ImageView textText = (ImageView) findViewById(R.id.imageView2);
         textView = (EditText) findViewById(R.id.textView);
 
-        if (visib == true) {
+        if (visib) {
             inkView.setVisibility(View.INVISIBLE);
             inkText.setVisibility(View.INVISIBLE);
             textText.setVisibility(View.VISIBLE);
@@ -201,67 +309,12 @@ public class Wand extends Activity {
     }
 
     public void shareImage(View v) {
-
         Intent share = new Intent();
         share.setAction(Intent.ACTION_SEND);
         share.putExtra(Intent.EXTRA_TEXT, "Wand: \n" + textView.getText());
         share.setType("text/plain");
 
         startActivity(share);
-    }
-
-    public void findWand(View v) {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
-
-            Toast.makeText(getApplicationContext(), "Device doesnt Support Bluetooth :(", Toast.LENGTH_SHORT).show();
-        }
-        if (!bluetoothAdapter.isEnabled())
-
-        {
-
-            Intent enableAdapter = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-
-            startActivityForResult(enableAdapter, 0);
-
-        }
-
-        Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
-
-        if (bondedDevices.isEmpty()) {
-
-            Toast.makeText(getApplicationContext(), "Please Pair the Device first", Toast.LENGTH_SHORT).show();
-
-        } else {
-
-            for (BluetoothDevice iterator : bondedDevices) {
-
-                if (iterator.getName().equals("HC_05")) //Replace with iterator.getName() if comparing Device names.
-
-                {
-
-                    device = iterator; //device is an object of type BluetoothDevice
-                    flag = true;
-                    break;
-
-                }
-            }
-        }
-
-        if (flag == true) {
-            try {
-                socket = device.createRfcommSocketToServiceRecord(MY_UUID);
-            } catch (IOException e) {
-                Toast.makeText(this, "Socket error", Toast.LENGTH_LONG).show();
-            }
-            try {
-                socket.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
     }
 
     @Override
@@ -277,7 +330,7 @@ public class Wand extends Activity {
     public void onSettingsClick(View v) {
         SlidingUpPanelLayout slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
-        if (state == false) {
+        if (!state) {
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
             state = true;
         } else {
@@ -296,6 +349,74 @@ public class Wand extends Activity {
         void cleanView(boolean emptyAll);
 
         Handler getHandler();
+    }
 
+    private class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private byte[] mmBuffer;
+        private boolean run = true;
+
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            // Get the input and output streams, using temp objects because
+            // member streams are final
+            try {
+                tmpIn = socket.getInputStream();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Error Input Stream", Toast.LENGTH_SHORT).show();
+            }
+            try {
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Error Output Stream", Toast.LENGTH_SHORT).show();
+            }
+
+            mmInStream = tmpIn;
+        }
+
+        public void run() {
+
+            mmBuffer = new byte[1024];  // buffer store for the stream
+            int numBytes; // bytes returned from read()
+
+            // Keep listening to the InputStream until an exception occurs
+            while (run) {
+                try {
+                    // Read from the InputStream
+                    numBytes = mmInStream.read(mmBuffer);
+
+                    byte[] readBuf = mmBuffer;
+                    String strIncom = new String(readBuf, 0, numBytes);
+                    sb.append(strIncom);                                                // формируем строку
+                    int endOfLineIndex = sb.indexOf("\r\n");                            // определяем символы конца строки
+                    if (endOfLineIndex > 0) {                                           // если встречаем конец строки,
+                        String sbprint = sb.substring(0, endOfLineIndex);               // то извлекаем строку
+                        sb.delete(0, sb.length());                                      // и очищаем sb
+                        Log.d("BT0", sbprint);
+
+                        mHandler.obtainMessage(0, 0, 0, sbprint).sendToTarget();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /* Call this from the main activity to shutdown the connection */
+        public void cancel() {
+            run = false;
+        }
     }
 }

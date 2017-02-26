@@ -63,7 +63,7 @@ import com.phatware.android.WritePadManager;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class InkView extends View implements Wand.OnInkViewListener {
+public class InkView extends View implements WandActivity.OnInkViewListener {
     private static final float TOUCH_TOLERANCE = 2;
     private final float GRID_GAP = 65;
     public ArrayList<String> wordList;
@@ -84,7 +84,6 @@ public class InkView extends View implements Wand.OnInkViewListener {
     // Define the Handler that receives messages from the thread and update the progress
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-
             textView.setText("");
             Bundle b = msg.getData();
             lastResult = b.getString("result");
@@ -92,19 +91,15 @@ public class InkView extends View implements Wand.OnInkViewListener {
             for (int w = 0; w < words; w++) {
                 int alternatives = WritePadManager.recoResultRowCount(w);
                 if (alternatives > 0) {
-
                     final CharSequence[] alternativesCollection = new CharSequence[alternatives];
                     for (int a = 0; a < alternatives; a++) {
                         String word = WritePadManager.recoResultWord(w, a);
                         alternativesCollection[a] = word;
                     }
 
-
-                    wordsss = (WritePadManager.recoResultWord(w, 0).toString());
+                    wordsss = WritePadManager.recoResultWord(w, 0);
 
                     textView.setText(textView.getText() + " " + wordsss);
-
-
                 }
             }
         }
@@ -124,7 +119,7 @@ public class InkView extends View implements Wand.OnInkViewListener {
         super(context, attrs, defStyle);
 
         mPath = new Path();
-        mPathList = new LinkedList<Path>();
+        mPathList = new LinkedList<>();
         mCurrStroke = -1;
         mPaint = new Paint();
         mPaint = new Paint();
@@ -231,7 +226,7 @@ public class InkView extends View implements Wand.OnInkViewListener {
         mPath = new Path();
         invalidate();
 
-        Wand rt = (Wand) getContext();
+        WandActivity rt = (WandActivity) getContext();
         int nStrokeCnt = WritePadManager.recoStrokeCount();
         if (nStrokeCnt == 1) {
             int gesturetype = WritePadAPI.GEST_DELETE + WritePadAPI.GEST_RETURN + WritePadAPI.GEST_SPACE +

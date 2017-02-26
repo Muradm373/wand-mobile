@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.phatware.android.recotest.R;
-import com.phatware.android.recotest.Wand;
+import com.phatware.android.recotest.WandActivity;
 
 import java.util.ArrayList;
 
@@ -20,10 +20,10 @@ public class CustomAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     Context context;
     ArrayList<Integer> imageId;
-    Wand mainAct;
+    WandActivity mainAct;
 
 
-    public CustomAdapter(Wand mainActivity, ArrayList<Integer> prgmImages) {
+    public CustomAdapter(WandActivity mainActivity, ArrayList<Integer> prgmImages) {
         // TODO Auto-generated constructor stub
 
         context = mainActivity;

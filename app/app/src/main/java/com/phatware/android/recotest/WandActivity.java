@@ -61,6 +61,7 @@ public class WandActivity extends Activity {
     private ServiceConnection mConnection;
 
     private long mPrevTouch = 0;
+    private boolean mPrevWasDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,10 +154,16 @@ public class WandActivity extends Activity {
 
                         //TODO work on this part
                         if (downTime > SENSOR_DELAY * 2) {
-                            action = MotionEvent.ACTION_UP;
+                            if(mPrevWasDown) {
+                                action = MotionEvent.ACTION_UP;
+                            } else {
+                                action = MotionEvent.ACTION_DOWN;
+                            }
+
+                            mPrevWasDown = !mPrevWasDown;
                         }
 
-                        inkView.onTouchEvent(MotionEvent.obtain(downTime, now, action, x / 10f, y / 10f, 0));
+                        inkView.onTouchEvent(MotionEvent.obtain(downTime, now, action, x / 1f, y / 1f, 0));
 
                         mPrevTouch = now;
                     } catch (NumberFormatException ignored) {

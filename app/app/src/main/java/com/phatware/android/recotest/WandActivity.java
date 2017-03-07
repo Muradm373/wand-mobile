@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,11 +35,14 @@ import static com.phatware.android.RecoInterface.WritePadAPI.TAG;
 
 public class WandActivity extends Activity {
 
+    private static float storedX = 0;
+    private static float storedY = 0;
+
     private static final int SENSOR_DELAY = 33;//ms
 
     private ConnectedThread mConnectedThread;
     Handler mHandler;
-    private StringBuilder sb = new StringBuilder();
+    private ArrayList<Byte> sb = new ArrayList<>();
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private static final int CLEAR_MENU_ID = Menu.FIRST + 1;
@@ -137,13 +141,21 @@ public class WandActivity extends Activity {
 
                 Log.d("BT1", sbprint);
 
-                String[] spl = sbprint.split(" ");
+                String[] spl = sbprint.split(";");
                 if (spl.length == 2) {
                     try {
-                        long x = Long.parseLong(spl[0]);
-                        long y = Long.parseLong(spl[1]);
+                        int x = -Integer.valueOf(spl[0]);
+                        int y = Integer.valueOf(spl[1]);
 
-                        long downTime = 0;
+                        if(x!=1 && y!=1) {
+                            storedX -= (float) (x / 10.0);
+                            storedY -= (float) (y / 10.0);
+
+                            if (inkView != null) {
+                                inkView.addLine(storedX, storedY);
+                            }
+                        }
+                        /*long downTime;
                         long now = System.currentTimeMillis();
 
                         if (mPrevTouch == 0) mPrevTouch = now;
@@ -165,7 +177,7 @@ public class WandActivity extends Activity {
 
                         inkView.onTouchEvent(MotionEvent.obtain(downTime, now, action, x / 1f, y / 1f, 0));
 
-                        mPrevTouch = now;
+                        mPrevTouch = now;*/
                     } catch (NumberFormatException ignored) {
                     }
                 }
@@ -183,8 +195,12 @@ public class WandActivity extends Activity {
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
-
-            Toast.makeText(getApplicationContext(), "Device doesn't Support Bluetooth :(", Toast.LENGTH_SHORT).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Device doesn't Support Bluetooth :(", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         if (!bluetoothAdapter.isEnabled()) {
 
@@ -197,7 +213,12 @@ public class WandActivity extends Activity {
         Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
 
         if (bondedDevices.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please Pair the Device first", Toast.LENGTH_SHORT).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Please Pair the Device first", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             for (BluetoothDevice iterator : bondedDevices) {
 
@@ -218,7 +239,12 @@ public class WandActivity extends Activity {
 
             try {
                 socket.connect();
-                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+                    }
+                });
             } catch (IOException e) {
                 try {
                     socket.close();
@@ -394,22 +420,56 @@ public class WandActivity extends Activity {
             while (run) {
                 try {
                     // Read from the InputStream
+                    if(mmInStream==null) break;
+
                     numBytes = mmInStream.read(mmBuffer);
+                    if(numBytes>0) {
+                        for (int i = 0; i < numBytes; i++) {
+                            sb.add(mmBuffer[i]);
+                        }
+                        // если встречаем конец строки,
+                        String sbprint = "";
+                        for(int i = 0; i<sb.size();i++){
+                            if(sb.get(i)==127) {
+                                if(sbprint.length()>0) {
+                                    mHandler.obtainMessage(0, 0, 0, sbprint).sendToTarget();
+                                }
+                                sbprint = "";
+                                for(int j = 0; j<=i;){
+                                    sb.remove(j);
+                                    i--;
+                                }
+                            } else {
+                                sbprint+= sb.get(i)+";";
+                            }
+                        }
 
-                    byte[] readBuf = mmBuffer;
-                    String strIncom = new String(readBuf, 0, numBytes);
-                    sb.append(strIncom);                                                // формируем строку
-                    int endOfLineIndex = sb.indexOf("\r\n");                            // определяем символы конца строки
-                    if (endOfLineIndex > 0) {                                           // если встречаем конец строки,
-                        String sbprint = sb.substring(0, endOfLineIndex);               // то извлекаем строку
-                        sb.delete(0, sb.length());                                      // и очищаем sb
-                        Log.d("BT0", sbprint);
+                        /*int endOfLineIndex = -1;
 
-                        mHandler.obtainMessage(0, 0, 0, sbprint).sendToTarget();
+                        for(int i = 0;i<sb.size();i++){
+                            if(sb.get(i)==126) {
+                                endOfLineIndex = i;
+                                break;
+                            }
+                        }
+
+                        if (endOfLineIndex >= 0) {                                           // если встречаем конец строки,
+                            String sbprint = "";
+
+                            for (int i = 0; i < endOfLineIndex; ) {
+                                sbprint+= sb.get(i);
+                                sb.remove(i);
+                                endOfLineIndex--;
+                            }
+
+                            if(sbprint.length()>0) {
+                                mHandler.obtainMessage(0, 0, 0, sbprint).sendToTarget();
+                            }
+                        }*/
                     }
-
                 } catch (IOException e) {
                     e.printStackTrace();
+                    findWand(null);
                     break;
                 }
             }

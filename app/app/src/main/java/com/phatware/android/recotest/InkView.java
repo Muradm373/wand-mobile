@@ -53,6 +53,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -64,6 +65,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class InkView extends View implements WandActivity.OnInkViewListener {
+    private float mPrevX, mPrevY;
+    private int mOffsetX, mOffsetY;
+    private boolean mNullPrevs = true;
     private static final float TOUCH_TOLERANCE = 2;
     private final float GRID_GAP = 65;
     public ArrayList<String> wordList;
@@ -179,6 +183,11 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
             canvas.drawPath(aMPathList, mPaint);
         }
         canvas.drawPath(mPath, mPaint);
+
+        mOffsetX = getWidth()/2;
+        mOffsetY = getHeight()/2;
+
+        int x = 0;
     }
 
     private void touch_start(float x, float y) {
@@ -283,10 +292,31 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
 
     }
 
+    public void addLine(float x, float y) {
+        boolean first = mNullPrevs;
+        if (mNullPrevs) {
+            mPrevX = x;
+            mPrevY = y;
+            mNullPrevs = false;
+        }
+
+        if ((mPrevX != x && mPrevY != y) || first) {
+            touch_start(mPrevX + mOffsetX, mPrevY + mOffsetY);
+            touch_move(x + mOffsetX, y + mOffsetY);
+            touch_up();
+            invalidate();
+
+            mPrevX = x;
+            mPrevY = y;
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
+
+        //Log.i("xy", String.valueOf(x)+ " ; " +String.valueOf(y));
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:

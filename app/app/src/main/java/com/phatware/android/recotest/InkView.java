@@ -66,6 +66,8 @@ import java.util.LinkedList;
 
 public class InkView extends View implements WandActivity.OnInkViewListener {
     private float mPrevX, mPrevY;
+    private float mStoredX = 0;
+    private float mStoredY = 0;
     private int mOffsetX, mOffsetY;
     private boolean mNullPrevs = true;
     private static final float TOUCH_TOLERANCE = 2;
@@ -110,6 +112,8 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
 
     };
     private Path gridpath = new Path();
+    private long mLastTime = 0;
+    private long mClickStart = 0;
 
     public InkView(Context context) {
         this(context, null, 0);
@@ -184,10 +188,8 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
         }
         canvas.drawPath(mPath, mPaint);
 
-        mOffsetX = getWidth()/2;
-        mOffsetY = getHeight()/2;
-
-        int x = 0;
+        mOffsetX = getWidth() / 2;
+        mOffsetY = getHeight() / 2;
     }
 
     private void touch_start(float x, float y) {
@@ -284,7 +286,9 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
         }
 
         // notify recognizer thread about data availability
-        rt.mBoundService.dataNotify(nStrokeCnt);
+        if(rt.mBoundService!=null) {
+            rt.mBoundService.dataNotify(nStrokeCnt);
+        }
     }
 
     private void sendText() {
@@ -293,21 +297,30 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
     }
 
     public void addLine(float x, float y) {
+        long currentTime = System.currentTimeMillis();
+        mStoredX -= (float) (x / 10.0);
+        mStoredY -= (float) (y / 10.0);
+
         boolean first = mNullPrevs;
         if (mNullPrevs) {
-            mPrevX = x;
-            mPrevY = y;
+            mPrevX = mStoredX;
+            mPrevY = mStoredY;
             mNullPrevs = false;
         }
 
-        if ((mPrevX != x && mPrevY != y) || first) {
-            touch_start(mPrevX + mOffsetX, mPrevY + mOffsetY);
-            touch_move(x + mOffsetX, y + mOffsetY);
-            touch_up();
+        if ((mPrevX != mStoredX && mPrevY != mStoredY) || first) {
+            if ((currentTime - mLastTime) >= 150) {
+                touch_up();
+                touch_start(mPrevX + mOffsetX, mPrevY + mOffsetY);
+            } else {
+                touch_move(mStoredX + mOffsetX, mStoredY + mOffsetY);
+            }
             invalidate();
 
-            mPrevX = x;
-            mPrevY = y;
+            mPrevX = mStoredX;
+            mPrevY = mStoredY;
+
+            mLastTime = currentTime;
         }
     }
 
@@ -320,22 +333,35 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touch_start(x, y);
-                invalidate();
+                //touch_start(x, y);
+                //invalidate();
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                for (int i = 0, n = event.getHistorySize(); i < n; i++) {
+                /*for (int i = 0, n = event.getHistorySize(); i < n; i++) {
                     touch_move(event.getHistoricalX(i),
                             event.getHistoricalY(i));
                 }
                 touch_move(x, y);
-                invalidate();
+                invalidate();*/
                 break;
 
             case MotionEvent.ACTION_UP:
-                touch_up();
-                invalidate();
+                //touch_up();
+                //invalidate();
+                long currentTimeMillis = System.currentTimeMillis();
+                if(currentTimeMillis - mClickStart < 200) {
+                    for(int i = 0; i<mPathList.size();i++) {
+                        WritePadManager.recoDeleteLastStroke();
+                    }
+                    mPathList.clear();
+                    mPrevX = 0;
+                    mPrevY = 0;
+                    mStoredX = 0;
+                    mStoredY = 0;
+                    invalidate();
+                }
+                mClickStart = currentTimeMillis;
                 break;
         }
         return true;
@@ -344,5 +370,4 @@ public class InkView extends View implements WandActivity.OnInkViewListener {
     public void setRecognizedTextContainer(EditText textView) {
         this.textView = textView;
     }
-
 }

@@ -35,9 +35,6 @@ import static com.phatware.android.RecoInterface.WritePadAPI.TAG;
 
 public class WandActivity extends Activity {
 
-    private static float storedX = 0;
-    private static float storedY = 0;
-
     private static final int SENSOR_DELAY = 33;//ms
 
     private ConnectedThread mConnectedThread;
@@ -148,11 +145,8 @@ public class WandActivity extends Activity {
                         int y = Integer.valueOf(spl[1]);
 
                         if(x!=1 && y!=1) {
-                            storedX -= (float) (x / 10.0);
-                            storedY -= (float) (y / 10.0);
-
                             if (inkView != null) {
-                                inkView.addLine(storedX, storedY);
+                                inkView.addLine(x, y);
                             }
                         }
                         /*long downTime;

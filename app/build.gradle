@@ -4,12 +4,13 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "iodevs.sssemil.com.wand"
+        applicationId "io_developers.sssemil.com.wand"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -26,6 +27,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
-    compile 'com.sothree.slidinguppanel:library:3.0.0'
+    compile 'com.android.support:support-v4:25.3.0'
+    compile 'com.android.support:support-vector-drawable:25.3.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
     testCompile 'junit:junit:4.12'
 }

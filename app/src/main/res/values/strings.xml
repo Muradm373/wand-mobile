@@ -1,70 +1,110 @@
 <resources>
     <string name="app_name">Wand</string>
-    <string name="hello">Hello World, RecoTest!</string>
-    <string name="preference_main_settings_language_summary">Select Language</string>
-    <string name="alternatives">Alternatives</string>
-    <string name="preference_main_settings_language_key">preference_main_settings_language_key</string>
 
-    <string name="preference_main_settings_group">Main Settings</string>
-    <string name="ime_settings">Sample Settings</string>
-    <string name="preference_main_settings_language_title">Language</string>
-    <string name="preference_main_settings_language_default">en</string>
-    <string name="preference_main_settings_language_dialog_title">Language</string>
-    <string name="preference_main_settings_autosuggestion_key">preference_main_settings_autosuggestion_key</string>
-    <string name="preference_main_settings_autosuggestion_on">Show Suggestions</string>
-    <string name="preference_main_settings_autosuggestion_summary">If ON, suggestions list will automatically appear.
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="no_account">No Account</string>
+    <string name="user">User</string>
+    <string name="account">Account</string>
+    <string name="log_out">Log Out</string>
+    <string name="other">Other</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="about_description">Some really cool description here :P</string>
+    <string name="log_in">Login</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="disconnected">Disconnected</string>
+    <string name="connecting">Connecting</string>
+    <string name="connected">Connected</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="no_acc_yet">No account yet? Create one</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="create_account">Create Account</string>
+    <string name="reenter_password">Re-enter Password</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="name">Name</string>
+    <string name="already_login">Already a member? Login</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact based on your message
+        history
     </string>
-    <string name="preference_recognizer_separate_letters_key">preference_recognizer_separate_letters_key</string>
-    <string name="preference_recognizer_single_word_only_key">preference_recognizer_single_word_only_key</string>
-    <string name="preference_recognizer_separate_letters_on">Separate Letters</string>
-    <string name="preference_recognizer_separate_letters_summary">If ON, do not connect individual letters.</string>
-    <string name="preference_recognizer_single_word_only_on">Single Word Only</string>
-    <string name="preference_recognizer_single_word_only_summary">If ON, write only one word per recognition session.
-    </string>
 
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
 
-    <string-array name="preference_main_settings_language_list">
-        <item>Dansk</item>
-        <item>Deutsch</item>
-        <item>English (Great Britain)</item>
-        <item>English (United States)</item>
-        <item>Español</item>
-        <item>Français</item>
-        <item>Italiano</item>
-        <item>Nederlands</item>
-        <item>Norsk</item>
-        <item>Português (Brasil)</item>
-        <item>Português (Portugal)</item>
-        <item>Svenska</item>
-        <item>Suomi</item>
-        <item>Bahasa Indonesia</item>
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
     </string-array>
 
-    <string-array name="preference_main_settings_language_list_values">
-        <item>da</item>
-        <item>de</item>
-        <item>en_uk</item>
-        <item>en</item>
-        <item>es</item>
-        <item>fr</item>
-        <item>it</item>
-        <item>nl</item>
-        <item>nb</item>
-        <item>pt_BR</item>
-        <item>pt_PT</item>
-        <item>sv</item>
-        <item>fi</item>
-        <item>id</item>
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
     </string-array>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_register">Register</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value"/>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="authenticating">Authenticating…</string>
+    <string name="login_failed">Login failed</string>
+    <string name="invalid_email">enter a valid email address</string>
+    <string name="invalid_pass_length">between 4 and 10 alphanumeric characters</string>
+    <string name="different_passwords_error">Password Do not match</string>
+    <string name="invalid_number">Enter Valid Mobile Number</string>
+    <string name="name_length_error">at least 3 characters</string>
 </resources>

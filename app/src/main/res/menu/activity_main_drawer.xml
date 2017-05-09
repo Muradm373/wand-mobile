@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/user">
+        <menu>
+            <item
+                    android:id="@+id/nav_account"
+                    android:title="@string/account"/>
+            <item
+                    android:id="@+id/nav_logout"
+                    android:title="@string/log_out"/>
+            <item
+                    android:id="@+id/nav_login"
+                    android:title="@string/log_in"/>
+            <item
+                    android:id="@+id/nav_sign_up"
+                    android:title="@string/sign_up"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/other">
+        <menu>
+            <item
+                    android:id="@+id/nav_settings"
+                    android:title="@string/settings"/>
+            <item
+                    android:id="@+id/nav_about"
+                    android:title="@string/about"/>
+        </menu>
+    </item>
+
+    <!--<group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Import"/>
+        <item
+                android:id="@+id/nav_gallery"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Gallery"/>
+        <item
+                android:id="@+id/nav_slideshow"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Slideshow"/>
+        <item
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Tools"/>
+    </group>-->
+
+
+</menu>

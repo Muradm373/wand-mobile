@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,8 +20,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
@@ -38,42 +38,40 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import static io_developers.sssemil.com.wand.Account.ApiHelper.*;
 
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+
+    public static final String BT_DEVICE_NAME = "SPP-CA";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    Handler mHandler;
+    RecognizerService mBoundService;
+
+    @Bind(R.id.ink_view)
+    InkView mInkView;
+    @Bind(R.id.recognized_text)
+    TextView mRecognizedText;
+    @Bind(R.id.deviceState)
+    DeviceStatusView mDeviceStatusView;
 
     private BluetoothSocket mBluetoothSocket;
     private ConnectedThread mConnectedThread;
     private ArrayList<Byte> mBufferArray = new ArrayList<>();
-    Handler mHandler;
     private int mPrevX;
     private int mPrevY;
-
-    private final BroadcastReceiver mBluetoothReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
-                Log.i("STATE:", intent.getExtras().toString());
-            }
-        }
-    };
-
-
-    RecognizerService mBoundService;
     private ServiceConnection mConnection;
     private boolean mRecoInit;
-
-    @Bind(R.id.ink_view) InkView mInkView;
-    @Bind(R.id.recognized_text) TextView mRecognizedText;
-    @Bind(R.id.deviceState) DeviceStatusView mDeviceStatusView;
 
     private Menu mNavMenu;
     private MenuItem mAccountMenuItem;
     private MenuItem mLogoutMenuItem;
     private MenuItem mSignupMenuItem;
     private MenuItem mLoginMenuItem;
+
+    private SharedPreferences mSharedPreferences;
+    private TextView mHeaderEmailView;
+    private TextView mHeaderNameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +91,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mHeaderEmailView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userid);
+        mHeaderNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+
         //TODO integrate user support and bind state with next lines
         mNavMenu = navigationView.getMenu();
 
@@ -102,7 +103,10 @@ public class MainActivity extends AppCompatActivity
         mLoginMenuItem = mNavMenu.findItem(R.id.nav_login);
         mSignupMenuItem = mNavMenu.findItem(R.id.nav_sign_up);
 
-        setMenuLoggedIn(false);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+        setLoggedIn(mSharedPreferences.getString(PREF_TOKEN, null) != null);
 
         // initialize ink inkView class
         String lName = WritePadManager.getLanguageName();
@@ -113,7 +117,6 @@ public class MainActivity extends AppCompatActivity
         defaultDisplay.getSize(size);
         int screenHeight = size.y;
         int textViewHeight = 15 * screenHeight / 100;
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, textViewHeight);
 
         mInkView.setRecognizedTextContainer(mRecognizedText);
 
@@ -160,9 +163,16 @@ public class MainActivity extends AppCompatActivity
                             state = Integer.valueOf(spl[2]);
                         }
 
-                        if (state == 1 && (x != mPrevX || y != mPrevY)) {
+                        if (x != mPrevX || y != mPrevY) {
                             if (mInkView != null) {
-                                mInkView.addLine(x, y);
+                                /*if (state == 1) {
+                                    mInkView.addLine(x, y, false);
+                                } else if (state == 2) {
+                                    //mInkView.touch_up();
+                                    mInkView.addLine(x, y, true);
+                                }*/
+
+                                mInkView.onWandEvent(x, y, state == 1);
                             }
                             mPrevX = x;
                             mPrevY = y;
@@ -175,11 +185,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void registerReceivers() {
-        registerReceiver(mBluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED));
+        if (mDeviceStatusView != null) {
+            mDeviceStatusView.registerReceiver();
+        }
     }
 
     private void unregisterReceivers() {
-        unregisterReceiver(mBluetoothReceiver);
+        if (mDeviceStatusView != null) {
+            mDeviceStatusView.unregisterReceiver();
+        }
     }
 
     @Override
@@ -292,21 +306,13 @@ public class MainActivity extends AppCompatActivity
             mConnectedThread = null;
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDeviceStatusView.setStatus(DeviceStatusView.CONNECTING);
-            }
-        });
-        BluetoothDevice device = null;
-
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Device doesn't Support Bluetooth :(", Toast.LENGTH_SHORT).show();
-                    mDeviceStatusView.setStatus(DeviceStatusView.DISCONNECTED);
+                    mDeviceStatusView.setStatus(DeviceStatusView.ERROR);
                 }
             });
 
@@ -314,27 +320,26 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (!bluetoothAdapter.isEnabled()) {
-
             Intent enableAdapter = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-
             startActivityForResult(enableAdapter, 0);
-
         }
 
         Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
+
+        BluetoothDevice device = null;
 
         if (bondedDevices.isEmpty()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Please Pair the Device first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.pair_request), Toast.LENGTH_SHORT).show();
+                    //mDeviceStatusView.setStatus(DeviceStatusView.DISCONNECTED);
                 }
             });
         } else {
             for (BluetoothDevice iterator : bondedDevices) {
-
                 Log.i("name", iterator.getName());
-                if (iterator.getName().equals("SPP-CA")) {
+                if (iterator.getName().equals(BT_DEVICE_NAME)) {
                     device = iterator; //device is an object of type BluetoothDevice
                     break;
                 }
@@ -342,11 +347,23 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (device != null) {
+            /*runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //mDeviceStatusView.setStatus(DeviceStatusView.CONNECTING);
+                }
+            });*/
             try {
                 mBluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
                 Log.e("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
-                mDeviceStatusView.setStatus(DeviceStatusView.DISCONNECTED);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDeviceStatusView.setStatus(DeviceStatusView.ERROR);
+                    }
+                });
                 return;
             }
 
@@ -364,7 +381,12 @@ public class MainActivity extends AppCompatActivity
                     mBluetoothSocket.close();
                 } catch (IOException e2) {
                     Log.e("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
-                    mDeviceStatusView.setStatus(DeviceStatusView.DISCONNECTED);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDeviceStatusView.setStatus(DeviceStatusView.ERROR);
+                        }
+                    });
                     return;
                 }
             }
@@ -379,14 +401,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setMenuLoggedIn(boolean menuLoggedIn) {
+    private void setLoggedIn(boolean menuLoggedIn) {
         mAccountMenuItem.setVisible(menuLoggedIn);
         mLogoutMenuItem.setVisible(menuLoggedIn);
 
         mLoginMenuItem.setVisible(!menuLoggedIn);
         mSignupMenuItem.setVisible(!menuLoggedIn);
+
+        if (menuLoggedIn) {
+            mHeaderNameView.setText(mSharedPreferences.getString(PREF_NAME, null));
+            mHeaderEmailView.setText(mSharedPreferences.getString(PREF_EMAIL, null));
+        } else {
+            mHeaderNameView.setText(R.string.no_account);
+            mHeaderEmailView.setText(null);
+        }
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(PREF_TOKEN)) {
+            setLoggedIn(sharedPreferences.getString(PREF_TOKEN, null) != null);
+        }
+    }
 
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
@@ -416,7 +452,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         public void run() {
-
             mmBuffer = new byte[1024];  // buffer store for the stream
             int numBytes; // bytes returned from read()
 

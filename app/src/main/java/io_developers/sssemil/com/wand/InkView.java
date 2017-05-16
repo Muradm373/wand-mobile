@@ -53,6 +53,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -66,32 +67,23 @@ import java.util.LinkedList;
 public class InkView extends View implements OnInkViewListener {
     private static final float TOUCH_TOLERANCE = 2;
     private final float GRID_GAP = 65;
-    public ArrayList<String> wordList;
-    public StringBuilder stringBuilder;
-    public String wordsss;
+    private String wordsss;
     public int brushColor = Color.BLUE;
     public int brushWidth = 3;
-    TextView textView;
-    private float mPrevX, mPrevY;
+    private TextView textView;
     private float mStoredX = 0;
     private float mStoredY = 0;
-    private int mOffsetX, mOffsetY;
-    private boolean mNullPrevs = true;
     private Path mPath;
     private int mCurrStroke;
     private Paint mPaint;
     private Paint mResultPaint;
-    private LinearLayout recognizedTextContainer;
     private LinkedList<Path> mPathList;
     private float mX, mY;
     private boolean mMoved;
-    private String lastResult = null;
     // Define the Handler that receives messages from the thread and update the progress
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             textView.setText("");
-            Bundle b = msg.getData();
-            lastResult = b.getString("result");
             int words = WritePadManager.recoResultColumnCount();
             for (int w = 0; w < words; w++) {
                 int alternatives = WritePadManager.recoResultRowCount(w);
@@ -113,6 +105,8 @@ public class InkView extends View implements OnInkViewListener {
     private Path gridpath = new Path();
     private long mLastTime = 0;
     private long mClickStart = 0;
+    private boolean mLastWasTouchUp = false;
+    private boolean mPrevWasShow;
 
     public InkView(Context context) {
         this(context, null, 0);
@@ -151,8 +145,6 @@ public class InkView extends View implements OnInkViewListener {
         mPath.reset();
         textView.setText("");
 
-        mPrevX = 0;
-        mPrevY = 0;
         mStoredX = 0;
         mStoredY = 0;
 
@@ -191,9 +183,6 @@ public class InkView extends View implements OnInkViewListener {
             canvas.drawPath(aMPathList, mPaint);
         }
         canvas.drawPath(mPath, mPaint);
-
-        mOffsetX = getWidth() / 2;
-        mOffsetY = getHeight() / 2;
     }
 
     private void touch_start(float x, float y) {
@@ -229,7 +218,7 @@ public class InkView extends View implements OnInkViewListener {
         }
     }
 
-    private void touch_up() {
+    public void touch_up() {
         // stopRecognizer();
 
         mCurrStroke = -1;
@@ -274,13 +263,11 @@ public class InkView extends View implements OnInkViewListener {
 
                     case WritePadAPI.GEST_CUT:
                         cleanView(false);
-                        lastResult = null;
                         return;
 
                     case WritePadAPI.GEST_RETURN:
                         sendText();
                         cleanView(false);
-                        lastResult = null;
                         return;
 
                     default:
@@ -300,78 +287,30 @@ public class InkView extends View implements OnInkViewListener {
 
     }
 
-    /*public void addLine(float x, float y) {
-        boolean first = mNullPrevs;
-        if (mNullPrevs) {
-            mPrevX = x;
-            mPrevY = y;
-            mNullPrevs = false;
-        }
-
-        if ((mPrevX != x && mPrevY != y) || first) {
-            touch_start(mPrevX + mOffsetX, mPrevY + mOffsetY);
-            touch_move(x + mOffsetX, y + mOffsetY);
-            touch_up();
-            invalidate();
-
-            mPrevX = x;
-            mPrevY = y;
-        }
-    }*/
-
-    public void addLine(float x, float y) {
-        long currentTime = System.currentTimeMillis();
-        mStoredX -= (float) (x / 10.0);
-        mStoredY -= (float) (y / 10.0);
-
-        boolean first = mNullPrevs;
-        if (mNullPrevs) {
-            mPrevX = mStoredX;
-            mPrevY = mStoredY;
-            mNullPrevs = false;
-        }
-
-        if ((mPrevX != mStoredX && mPrevY != mStoredY) || first) {
-            if ((currentTime - mLastTime) >= 150) {
-                touch_up();
-                touch_start(mPrevX + mOffsetX, mPrevY + mOffsetY);
-            } else {
-                touch_move(mStoredX + mOffsetX, mStoredY + mOffsetY);
-            }
-            invalidate();
-
-            mPrevX = mStoredX;
-            mPrevY = mStoredY;
-
-            mLastTime = currentTime;
-        }
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
 
-        //Log.i("xy", String.valueOf(x)+ " ; " +String.valueOf(y));
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //touch_start(x, y);
-                //invalidate();
+                touch_start(x, y);
+                invalidate();
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                /*for (int i = 0, n = event.getHistorySize(); i < n; i++) {
+                for (int i = 0, n = event.getHistorySize(); i < n; i++) {
                     touch_move(event.getHistoricalX(i),
                             event.getHistoricalY(i));
                 }
                 touch_move(x, y);
-                invalidate();*/
+                invalidate();
                 break;
 
             case MotionEvent.ACTION_UP:
-                //touch_up();
-                //invalidate();
+                touch_up();
+                invalidate();
+
                 long currentTimeMillis = System.currentTimeMillis();
                 if (currentTimeMillis - mClickStart < 200) {
                     this.cleanView(true);
@@ -381,6 +320,71 @@ public class InkView extends View implements OnInkViewListener {
                 break;
         }
         return true;
+    }
+
+    void onWandEvent(float xD, float yD, boolean show) {
+        mStoredX -= (float) (xD / 10.0);
+        mStoredY -= (float) (yD / 10.0);
+
+        int action;
+
+        if (mPrevWasShow && !show) {
+            action = MotionEvent.ACTION_UP;
+            Log.i("onWandEvent", "UP x: " + mStoredX + " y: " + mStoredY);
+        } else if (mPrevWasShow) {
+            action = MotionEvent.ACTION_MOVE;
+            Log.i("onWandEvent", "MOVE x: " + mStoredX + " y: " + mStoredY);
+        } else if (show) {
+            action = MotionEvent.ACTION_DOWN;
+            Log.i("onWandEvent", "DOWN x: " + mStoredX + " y: " + mStoredY);
+        } else {
+            Log.i("onWandEvent", "NULL x: " + mStoredX + " y: " + mStoredY);
+            return;
+        }
+
+        if (mStoredX > getWidth()) {
+            mStoredX = 0;
+            action = MotionEvent.ACTION_OUTSIDE;
+        }
+
+        if (mStoredY > getHeight()) {
+            mStoredY = 0;
+            action = MotionEvent.ACTION_OUTSIDE;
+        }
+
+        if (mStoredX < 0) {
+            mStoredX = getWidth();
+            action = MotionEvent.ACTION_OUTSIDE;
+        }
+
+        if (mStoredY < 0) {
+            mStoredY = getHeight();
+            action = MotionEvent.ACTION_OUTSIDE;
+        }
+
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                touch_start(mStoredX, mStoredY);
+                invalidate();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                touch_move(mStoredX, mStoredY);
+                invalidate();
+                break;
+
+            case MotionEvent.ACTION_UP:
+                touch_up();
+                invalidate();
+                break;
+            case MotionEvent.ACTION_OUTSIDE:
+                touch_up();
+                touch_start(mStoredX, mStoredY);
+                invalidate();
+                break;
+        }
+
+        mPrevWasShow = show;
     }
 
     public void setRecognizedTextContainer(TextView textView) {

@@ -137,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onLoginFailed() {
         Toast.makeText(getBaseContext(), R.string.login_failed, Toast.LENGTH_LONG).show();
-
         mLoginButton.setEnabled(true);
     }
 

@@ -107,4 +107,6 @@
     <string name="different_passwords_error">Password Do not match</string>
     <string name="invalid_number">Enter Valid Mobile Number</string>
     <string name="name_length_error">at least 3 characters</string>
+    <string name="pair_request">Please Pair the Device first</string>
+    <string name="error">Error</string>
 </resources>

@@ -13,8 +13,9 @@ import rx.Observable;
 public class ApiHelper {
     public static final String PREF_TOKEN = "pref_token";
     public static final String PREF_EMAIL = "pref_email";
+    public static final String PREF_NAME = "pref_name";
 
-    private static final String SERVER_URL = "http://10.50.50.118/";
+    private static final String SERVER_URL = "http://192.168.1.2/";
     private Api mApi;
 
     public ApiHelper() {

@@ -21,6 +21,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_EMAIL;
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_NAME;
 import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_TOKEN;
 
 public class SignupActivity extends AppCompatActivity {
@@ -112,6 +113,7 @@ public class SignupActivity extends AppCompatActivity {
                         mSharedPreferences.edit()
                                 .putString(PREF_TOKEN, token)
                                 .putString(PREF_EMAIL, email)
+                                .putString(PREF_NAME, name)
                                 .apply();
                     }
                 });

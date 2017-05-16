@@ -2,8 +2,10 @@ package io_developers.sssemil.com.wand.Account;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,12 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io_developers.sssemil.com.wand.R;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_EMAIL;
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_TOKEN;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -24,11 +32,15 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.btn_login) Button mLoginButton;
     @Bind(R.id.link_signup) TextView mSignupLink;
 
+    private SharedPreferences mSharedPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -67,20 +79,35 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
 
-        String email = mEmailText.getText().toString();
-        String password = mPasswordText.getText().toString();
+        final String email = mEmailText.getText().toString();
+        final String password = mPasswordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        ApiHelper apiHelper = new ApiHelper();
+        apiHelper.getApi().login(email, password)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
 
-        new Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
+                    @Override
+                    public void onCompleted() {
+                        Log.i("Login", "onCompleted");
                         onLoginSuccess();
-                        // onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Login", "onError", e);
+                        onLoginFailed();
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNext(String token) {
+                        Log.i("Login", "onNext " + token);
+                        mSharedPreferences.edit().putString(PREF_TOKEN, token).putString(PREF_EMAIL, email).apply();
+                    }
+                });
     }
 
 

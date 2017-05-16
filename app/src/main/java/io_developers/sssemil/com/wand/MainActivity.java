@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                         int x = -Integer.valueOf(spl[0]);
                         int y = Integer.valueOf(spl[1]);
 
-                        int state = 0;
+                        int state = 1;
 
                         if (spl.length >= 3) {
                             state = Integer.valueOf(spl[2]);

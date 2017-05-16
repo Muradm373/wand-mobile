@@ -2,7 +2,9 @@ package io_developers.sssemil.com.wand.Account;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,12 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import io_developers.sssemil.com.wand.R;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_EMAIL;
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_TOKEN;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -25,12 +33,16 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_reEnterPassword) EditText mReEnterPasswordText;
     @Bind(R.id.btn_signup) Button mSignupButton;
     @Bind(R.id.link_login) TextView mLoginLink;
+
+    private SharedPreferences mSharedPreferences;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,24 +79,42 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = mNameText.getText().toString();
-        String email = mEmailText.getText().toString();
-        String mobile = mMobileText.getText().toString();
-        String password = mPasswordText.getText().toString();
-        String reEnterPassword = mReEnterPasswordText.getText().toString();
+        final String name = mNameText.getText().toString();
+        final String email = mEmailText.getText().toString();
+        final String mobile = mMobileText.getText().toString();
+        final String password = mPasswordText.getText().toString();
+        final String reEnterPassword = mReEnterPasswordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        //TODO: Implement your own signup logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
+        ApiHelper apiHelper = new ApiHelper();
+        apiHelper.getApi().signup(email, password, name, mobile)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("Signup", "onCompleted");
                         onSignupSuccess();
-                        // onSignupFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Signup", "onError", e);
+                        onSignupFailed();
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNext(String token) {
+                        Log.i("Signup", "onNext " + token);
+                        mSharedPreferences.edit()
+                                .putString(PREF_TOKEN, token)
+                                .putString(PREF_EMAIL, email)
+                                .apply();
+                    }
+                });
     }
 
 

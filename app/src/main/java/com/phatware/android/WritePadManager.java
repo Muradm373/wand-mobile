@@ -46,6 +46,7 @@ package com.phatware.android;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.phatware.android.RecoInterface.WritePadAPI;
 
 import java.io.IOException;

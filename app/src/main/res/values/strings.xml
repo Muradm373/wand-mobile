@@ -39,4 +39,5 @@
     <string name="name_length_error">at least 3 characters</string>
     <string name="pair_request">Please Pair the Device first</string>
     <string name="error">Error</string>
+    <string name="color">Color</string>
 </resources>

@@ -1,9 +1,13 @@
 package io_developers.sssemil.com.wand;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,15 +26,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.phatware.android.WritePadFlagManager;
 import com.phatware.android.WritePadManager;
-import io_developers.sssemil.com.wand.Account.ApiHelper;
-import io_developers.sssemil.com.wand.Account.LoginActivity;
-import io_developers.sssemil.com.wand.Account.SignupActivity;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,23 +43,24 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 
-import static io_developers.sssemil.com.wand.Account.ApiHelper.*;
+import io_developers.sssemil.com.wand.Account.ApiHelper;
+import io_developers.sssemil.com.wand.Account.LoginActivity;
+import io_developers.sssemil.com.wand.Account.SignupActivity;
+
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_EMAIL;
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_NAME;
+import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_TOKEN;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String BT_DEVICE_NAME = "SPP-CA";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private Handler mHandler;
     RecognizerService mBoundService;
-
-    @Bind(R.id.ink_view)
     InkView mInkView;
-    @Bind(R.id.recognized_text)
     TextView mRecognizedText;
-    @Bind(R.id.deviceState)
     DeviceStatusView mDeviceStatusView;
-
+    private Handler mHandler;
     private BluetoothSocket mBluetoothSocket;
     private ConnectedThread mConnectedThread;
     private ArrayList<Byte> mBufferArray = new ArrayList<>();
@@ -65,7 +69,6 @@ public class MainActivity extends AppCompatActivity
     private ServiceConnection mConnection;
     private boolean mRecoInit;
 
-    private Menu mNavMenu;
     private MenuItem mLogoutMenuItem;
     private MenuItem mSignupMenuItem;
     private MenuItem mLoginMenuItem;
@@ -73,12 +76,13 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences mSharedPreferences;
     private TextView mHeaderEmailView;
     private TextView mHeaderNameView;
+    private SlidingUpPanelLayout mSlidingLayout;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,22 +90,27 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mInkView = (InkView) findViewById(R.id.ink_view);
+        mRecognizedText = (TextView) findViewById(R.id.recognized_text);
+        mDeviceStatusView = (DeviceStatusView) findViewById(R.id.deviceState);
+
+        mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+
         mHeaderEmailView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userid);
         mHeaderNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
 
-        //TODO integrate user support and bind state with next lines
-        mNavMenu = navigationView.getMenu();
+        Menu navMenu = navigationView.getMenu();
 
-        mLogoutMenuItem = mNavMenu.findItem(R.id.nav_logout);
+        mLogoutMenuItem = navMenu.findItem(R.id.nav_logout);
 
-        mLoginMenuItem = mNavMenu.findItem(R.id.nav_login);
-        mSignupMenuItem = mNavMenu.findItem(R.id.nav_sign_up);
+        mLoginMenuItem = navMenu.findItem(R.id.nav_login);
+        mSignupMenuItem = navMenu.findItem(R.id.nav_sign_up);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -117,6 +126,37 @@ public class MainActivity extends AppCompatActivity
         defaultDisplay.getSize(size);
         int screenHeight = size.y;
         int textViewHeight = 15 * screenHeight / 100;
+
+
+        int colorList[] = new int[]{
+                getResources().getColor(R.color.green),
+                getResources().getColor(R.color.light_green),
+                getResources().getColor(R.color.lime),
+                getResources().getColor(R.color.yellow),
+                getResources().getColor(R.color.orange),
+                getResources().getColor(R.color.red),
+                getResources().getColor(R.color.pink),
+                getResources().getColor(R.color.cyan),
+                getResources().getColor(R.color.blue),
+                getResources().getColor(R.color.purple),
+                getResources().getColor(R.color.indigo),
+                getResources().getColor(R.color.black)
+        };
+
+
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+
+        CustomAdapter ca = new CustomAdapter(this, colorList, new CustomAdapter.OnColorClick() {
+            @Override
+            public void onColorClick(int colorId) {
+                mInkView.brushColor = colorId;
+                RelativeLayout rl = (RelativeLayout) findViewById(R.id.layoutline);
+                rl.setBackgroundColor(colorId);
+
+            }
+        });
+
+        gridView.setAdapter(ca);
 
         mInkView.setRecognizedTextContainer(mRecognizedText);
 
@@ -140,7 +180,7 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        bindService(new Intent(this, RecognizerService.class), mConnection, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(this, RecognizerService.class), mConnection, android.content.Context.BIND_AUTO_CREATE);
 
         mHandler = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -185,7 +225,7 @@ public class MainActivity extends AppCompatActivity
 
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -228,6 +268,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if (!mSlidingLayout.getPanelState().equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
+                mSlidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            } else {
+                mSlidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
             return true;
         }
 

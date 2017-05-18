@@ -1,6 +1,5 @@
 package io_developers.sssemil.com.wand;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,6 +1,7 @@
 package io_developers.sssemil.com.wand.Account;
 
 import android.content.SharedPreferences;
+
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.http.Field;
@@ -37,6 +38,10 @@ public class ApiHelper {
         mApi = restAdapter.create(Api.class);
     }
 
+    public static void logOut(SharedPreferences sharedPreferences) {
+        sharedPreferences.edit().remove(PREF_EMAIL).remove(PREF_NAME).remove(PREF_TOKEN).apply();
+    }
+
     public Api getApi() {
         return mApi;
     }
@@ -50,9 +55,5 @@ public class ApiHelper {
         @POST("/login.php")
         @FormUrlEncoded
         Observable<String> login(@Field("email") String email, @Field("password") String password);
-    }
-
-    public static void logOut(SharedPreferences sharedPreferences){
-        sharedPreferences.edit().remove(PREF_EMAIL).remove(PREF_NAME).remove(PREF_TOKEN).apply();
     }
 }

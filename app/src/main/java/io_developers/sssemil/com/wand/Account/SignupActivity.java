@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
-import butterknife.Bind;
 import io_developers.sssemil.com.wand.R;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,21 +25,28 @@ import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_TOKEN;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    @Bind(R.id.input_name) EditText mNameText;
-    @Bind(R.id.input_email) EditText mEmailText;
-    @Bind(R.id.input_mobile) EditText mMobileText;
-    @Bind(R.id.input_password) EditText mPasswordText;
-    @Bind(R.id.input_reEnterPassword) EditText mReEnterPasswordText;
-    @Bind(R.id.btn_signup) Button mSignupButton;
-    @Bind(R.id.link_login) TextView mLoginLink;
+    private EditText mNameText;
+    private EditText mEmailText;
+    private EditText mMobileText;
+    private EditText mPasswordText;
+    private EditText mReEnterPasswordText;
+    private Button mSignupButton;
 
     private SharedPreferences mSharedPreferences;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        ButterKnife.bind(this);
+
+        mNameText = (EditText) findViewById(R.id.input_name);
+        mEmailText = (EditText) findViewById(R.id.input_email);
+        mMobileText = (EditText) findViewById(R.id.input_mobile);
+        mPasswordText = (EditText) findViewById(R.id.input_password);
+        mReEnterPasswordText = (EditText) findViewById(R.id.input_reEnterPassword);
+
+        mSignupButton = (Button) findViewById(R.id.btn_signup);
+        TextView loginLink = (TextView) findViewById(R.id.link_login);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -52,11 +57,11 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        mLoginLink.setOnClickListener(new View.OnClickListener() {
+        loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -84,7 +89,6 @@ public class SignupActivity extends AppCompatActivity {
         final String email = mEmailText.getText().toString();
         final String mobile = mMobileText.getText().toString();
         final String password = mPasswordText.getText().toString();
-        final String reEnterPassword = mReEnterPasswordText.getText().toString();
 
         //TODO: Implement your own signup logic here.
 
@@ -155,7 +159,7 @@ public class SignupActivity extends AppCompatActivity {
             mEmailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()!=10) {
+        if (mobile.isEmpty() || mobile.length() != 10) {
             mMobileText.setError(getString(R.string.invalid_number));
             valid = false;
         } else {

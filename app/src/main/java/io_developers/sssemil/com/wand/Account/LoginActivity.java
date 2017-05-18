@@ -12,8 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import io_developers.sssemil.com.wand.R;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,10 +25,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @Bind(R.id.input_email) EditText mEmailText;
-    @Bind(R.id.input_password) EditText mPasswordText;
-    @Bind(R.id.btn_login) Button mLoginButton;
-    @Bind(R.id.link_signup) TextView mSignupLink;
+    private EditText mEmailText;
+    private EditText mPasswordText;
+    private Button mLoginButton;
 
     private SharedPreferences mSharedPreferences;
 
@@ -37,7 +35,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+
+        mEmailText = (EditText) findViewById(R.id.input_email);
+        mPasswordText = (EditText) findViewById(R.id.input_password);
+        mLoginButton = (Button) findViewById(R.id.btn_login);
+        TextView signupLink = (TextView) findViewById(R.id.link_signup);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -49,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mSignupLink.setOnClickListener(new View.OnClickListener() {
+        signupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

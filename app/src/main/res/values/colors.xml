@@ -18,4 +18,18 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+
+
+    <color name="red">#F6402C</color>
+    <color name="pink">#82dce9</color>
+    <color name="purple">#9C1AB1</color>
+    <color name="indigo">#3D4DB7</color>
+    <color name="blue">#1093F5</color>
+    <color name="cyan">#00BBD5</color>
+    <color name="green">#46AF4A</color>
+    <color name="light_green">#88C440</color>
+    <color name="lime">#CCDD1E</color>
+    <color name="yellow">#FFEC16</color>
+    <color name="orange">#FF9800</color>
+    <color name="deep_orange">#FF5505</color>
 </resources>

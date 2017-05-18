@@ -44,42 +44,30 @@
 
 package io_developers.sssemil.com.wand;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.phatware.android.RecoInterface.WritePadAPI;
 import com.phatware.android.WritePadManager;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class InkView extends View implements OnInkViewListener {
     private static final float TOUCH_TOLERANCE = 2;
     private final float GRID_GAP = 65;
-    private String wordsss;
     public int brushColor = Color.BLUE;
     public int brushWidth = 3;
+    private String wordsss;
     private TextView textView;
-    private float mStoredX = 0;
-    private float mStoredY = 0;
-    private Path mPath;
-    private int mCurrStroke;
-    private Paint mPaint;
-    private Paint mResultPaint;
-    private LinkedList<Path> mPathList;
-    private float mX, mY;
-    private boolean mMoved;
     // Define the Handler that receives messages from the thread and update the progress
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -102,21 +90,30 @@ public class InkView extends View implements OnInkViewListener {
         }
 
     };
+    private float mStoredX = 0;
+    private float mStoredY = 0;
+    private Path mPath;
+    private int mCurrStroke;
+    private Paint mPaint;
+    private Paint mResultPaint;
+    private LinkedList<Path> mPathList;
+    private float mX, mY;
+    private boolean mMoved;
     private Path gridpath = new Path();
     private long mLastTime = 0;
     private long mClickStart = 0;
     private boolean mLastWasTouchUp = false;
     private boolean mPrevWasShow;
 
-    public InkView(Context context) {
+    public InkView(android.content.Context context) {
         this(context, null, 0);
     }
 
-    public InkView(Context context, AttributeSet attrs) {
+    public InkView(android.content.Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public InkView(Context context, AttributeSet attrs, int defStyle) {
+    public InkView(android.content.Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         mPath = new Path();

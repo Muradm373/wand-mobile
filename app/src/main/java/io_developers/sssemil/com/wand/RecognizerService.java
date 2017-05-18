@@ -46,7 +46,13 @@ package io_developers.sssemil.com.wand;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.*;
+import android.os.Binder;
+import android.os.Bundle;
+import android.os.ConditionVariable;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+
 import com.phatware.android.WritePadManager;
 
 public class RecognizerService extends Service {

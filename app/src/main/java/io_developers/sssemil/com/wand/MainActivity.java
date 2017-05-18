@@ -20,13 +20,15 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.phatware.android.WritePadFlagManager;
 import com.phatware.android.WritePadManager;
+import io_developers.sssemil.com.wand.Account.ApiHelper;
 import io_developers.sssemil.com.wand.Account.LoginActivity;
 import io_developers.sssemil.com.wand.Account.SignupActivity;
 
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String BT_DEVICE_NAME = "SPP-CA";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    Handler mHandler;
+    private Handler mHandler;
     RecognizerService mBoundService;
 
     @Bind(R.id.ink_view)
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity
     private boolean mRecoInit;
 
     private Menu mNavMenu;
-    private MenuItem mAccountMenuItem;
     private MenuItem mLogoutMenuItem;
     private MenuItem mSignupMenuItem;
     private MenuItem mLoginMenuItem;
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity
         //TODO integrate user support and bind state with next lines
         mNavMenu = navigationView.getMenu();
 
-        mAccountMenuItem = mNavMenu.findItem(R.id.nav_account);
         mLogoutMenuItem = mNavMenu.findItem(R.id.nav_logout);
 
         mLoginMenuItem = mNavMenu.findItem(R.id.nav_login);
@@ -182,6 +182,12 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void registerReceivers() {
@@ -238,8 +244,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, AboutActivity.class));
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
-            case R.id.nav_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+            case R.id.nav_license:
+                startActivity(new Intent(this, LicenseActivity.class));
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case R.id.nav_login:
@@ -249,6 +255,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_sign_up:
                 startActivity(new Intent(this, SignupActivity.class));
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                break;
+            case R.id.nav_logout:
+                ApiHelper.logOut(mSharedPreferences);
                 break;
             default:
                 break;
@@ -402,7 +411,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setLoggedIn(boolean menuLoggedIn) {
-        mAccountMenuItem.setVisible(menuLoggedIn);
         mLogoutMenuItem.setVisible(menuLoggedIn);
 
         mLoginMenuItem.setVisible(!menuLoggedIn);

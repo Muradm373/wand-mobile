@@ -24,18 +24,17 @@
         </activity>
         <activity android:name=".AboutActivity">
         </activity>
-        <activity
-                android:name=".SettingsActivity"
-                android:label="@string/title_activity_settings"
-                android:parentActivityName=".MainActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="io_developers.sssemil.com.wand.MainActivity"/>
-        </activity>
 
         <service android:name=".RecognizerService"/>
-        <activity android:name=".Account.LoginActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".Account.SignupActivity" android:theme="@style/AppTheme.Dark" />
+
+        <activity
+                android:name=".Account.LoginActivity"
+                android:theme="@style/AppTheme.Dark"/>
+        <activity
+                android:name=".Account.SignupActivity"
+                android:theme="@style/AppTheme.Dark"/>
+        <activity android:name=".LicenseActivity">
+        </activity>
     </application>
 
 </manifest>

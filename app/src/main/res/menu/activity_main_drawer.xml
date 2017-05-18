@@ -4,9 +4,6 @@
     <item android:title="@string/user">
         <menu>
             <item
-                    android:id="@+id/nav_account"
-                    android:title="@string/account"/>
-            <item
                     android:id="@+id/nav_logout"
                     android:title="@string/log_out"/>
             <item
@@ -21,8 +18,8 @@
     <item android:title="@string/other">
         <menu>
             <item
-                    android:id="@+id/nav_settings"
-                    android:title="@string/settings"/>
+                    android:id="@+id/nav_license"
+                    android:title="@string/license"/>
             <item
                     android:id="@+id/nav_about"
                     android:title="@string/about"/>

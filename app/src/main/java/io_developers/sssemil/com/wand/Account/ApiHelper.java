@@ -1,5 +1,6 @@
 package io_developers.sssemil.com.wand.Account;
 
+import android.content.SharedPreferences;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.http.Field;
@@ -15,7 +16,8 @@ public class ApiHelper {
     public static final String PREF_EMAIL = "pref_email";
     public static final String PREF_NAME = "pref_name";
 
-    private static final String SERVER_URL = "http://192.168.1.2/";
+    private static final String SERVER_URL = "http://wand.ddns.net/";
+
     private Api mApi;
 
     public ApiHelper() {
@@ -40,13 +42,17 @@ public class ApiHelper {
     }
 
     public interface Api {
-        @POST("/wand/init.php")
+        @POST("/init.php")
         @FormUrlEncoded
         Observable<String> signup(@Field("email") String email, @Field("password") String password,
                                   @Field("name") String name, @Field("mobile") String mobile);
 
-        @POST("/wand/login.php")
+        @POST("/login.php")
         @FormUrlEncoded
         Observable<String> login(@Field("email") String email, @Field("password") String password);
+    }
+
+    public static void logOut(SharedPreferences sharedPreferences){
+        sharedPreferences.edit().remove(PREF_EMAIL).remove(PREF_NAME).remove(PREF_TOKEN).apply();
     }
 }

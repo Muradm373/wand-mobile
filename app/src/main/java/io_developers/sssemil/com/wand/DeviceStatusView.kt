@@ -8,13 +8,14 @@ import android.content.IntentFilter
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 
 /**
  * Created by emil on 8/05/17.
  */
-class DeviceStatusView : RelativeLayout {
+class DeviceStatusView : LinearLayout {
 
     private var mConnectionStatus: Int = 0
     private var mTextView: TextView? = null
@@ -94,8 +95,8 @@ class DeviceStatusView : RelativeLayout {
 
         View.inflate(getContext(), R.layout.device_status_layout, this)
 
-        this.mTextView = findViewById(R.id.text) as TextView
         this.mIconView = findViewById(R.id.icon) as ImageView
+        this.mTextView = findViewById(R.id.text) as TextView
 
         setStatus(mConnectionStatus)
     }

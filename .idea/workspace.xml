@@ -10,22 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9dbb8060-0db9-43db-84bb-9ff679d27559" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/DeviceStatusView.kt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/InkView.kt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/MainActivity.kt" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/DeviceStatusView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/InkView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/MainActivity.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_save.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_share.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_save.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_share.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_save.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_share.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_save.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_share.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_save.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_share.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/AboutActivity.kt" afterPath="$PROJECT_DIR$/app/src/main/java/io_developers/sssemil/com/wand/AboutActivity.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_about.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_about.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -3094,7 +3089,14 @@
       <option name="project" value="LOCAL" />
       <updated>1495088647568</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add save and share + cleanup and ktfy">
+      <created>1495545745440</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1495545745440</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -3103,7 +3105,7 @@
   <component name="ToolWindowManager">
     <frame x="63" y="-4" width="1857" height="1084" extended-state="6" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32795697" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -3147,6 +3149,32 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -3155,7 +3183,8 @@
     <MESSAGE value="Support spaces and &quot;skip edges&quot;" />
     <MESSAGE value="Cleanup UI &amp; add some stuff" />
     <MESSAGE value="Cleanup UI &amp; use my server" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup UI &amp; use my server" />
+    <MESSAGE value="Add save and share + cleanup and ktfy" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add save and share + cleanup and ktfy" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3299,52 +3328,52 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1495545684863" expanded="true" signature="240137:240154" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240137:240172" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240137:240185" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240137:240200" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240235:243090" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240248:243075" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240302:240604" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240321:240589" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240384:240569" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240424:240535" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240445:240513" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240654:240971" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240673:240956" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240751:240936" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240791:240902" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="240812:240880" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241022:241294" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241041:241279" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241074:241259" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241114:241225" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241135:241203" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241337:241650" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241356:241635" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241430:241615" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241470:241581" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241491:241559" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241701:242014" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241720:241999" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241794:241979" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241834:241945" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="241855:241923" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242049:242355" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242068:242340" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242142:242320" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242182:242286" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242203:242264" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242407:242748" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242426:242733" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242528:242713" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242568:242679" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242589:242657" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242796:243061" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242815:243046" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242848:243026" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242888:242992" ph="..." />
-            <marker date="1495545684863" expanded="true" signature="242909:242970" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="238917:238934" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="238917:238952" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="238917:238965" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="238917:238980" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239015:241870" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239028:241855" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239082:239384" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239101:239369" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239164:239349" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239204:239315" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239225:239293" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239434:239751" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239453:239736" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239531:239716" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239571:239682" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239592:239660" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239802:240074" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239821:240059" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239854:240039" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239894:240005" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="239915:239983" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240117:240430" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240136:240415" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240210:240395" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240250:240361" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240271:240339" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240481:240794" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240500:240779" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240574:240759" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240614:240725" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240635:240703" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240829:241135" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240848:241120" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240922:241100" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240962:241066" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="240983:241044" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241187:241528" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241206:241513" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241308:241493" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241348:241459" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241369:241437" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241576:241841" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241595:241826" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241628:241806" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241668:241772" ph="..." />
+            <marker date="1495545839555" expanded="true" signature="241689:241750" ph="..." />
           </folding>
         </state>
       </provider>

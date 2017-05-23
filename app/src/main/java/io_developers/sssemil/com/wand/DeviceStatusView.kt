@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 
 /**
@@ -17,11 +16,11 @@ import android.widget.TextView
  */
 class DeviceStatusView : LinearLayout {
 
-    private var mConnectionStatus: Int = 0
-    private var mTextView: TextView? = null
-    private var mIconView: ImageView? = null
+    private var connectionStatus: Int = 0
+    private var textView: TextView? = null
+    private var iconView: ImageView? = null
 
-    private val mReceiver = object : BroadcastReceiver() {
+    private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
             val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
@@ -51,23 +50,23 @@ class DeviceStatusView : LinearLayout {
     }
 
     fun setStatus(status: Int) {
-        mConnectionStatus = status
-        when (mConnectionStatus) {
+        connectionStatus = status
+        when (connectionStatus) {
             DISCONNECTED -> {
-                mTextView!!.setText(R.string.disconnected)
-                mIconView!!.setBackgroundResource(R.drawable.ic_disconnected)
+                textView!!.setText(R.string.disconnected)
+                iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
             }
             CONNECTING -> {
-                mTextView!!.setText(R.string.connecting)
-                mIconView!!.setBackgroundResource(R.drawable.ic_connecting)
+                textView!!.setText(R.string.connecting)
+                iconView!!.setBackgroundResource(R.drawable.ic_connecting)
             }
             CONNECTED -> {
-                mTextView!!.setText(R.string.connected)
-                mIconView!!.setBackgroundResource(R.drawable.ic_connected)
+                textView!!.setText(R.string.connected)
+                iconView!!.setBackgroundResource(R.drawable.ic_connected)
             }
             ERROR -> {
-                mTextView!!.setText(R.string.error)
-                mIconView!!.setBackgroundResource(R.drawable.ic_disconnected)
+                textView!!.setText(R.string.error)
+                iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
             }
         }
         invalidate()
@@ -88,29 +87,29 @@ class DeviceStatusView : LinearLayout {
                 0, 0)
 
         try {
-            mConnectionStatus = a.getInteger(R.styleable.DeviceStatusView_status, DISCONNECTED.toInt())
+            connectionStatus = a.getInteger(R.styleable.DeviceStatusView_status, DISCONNECTED.toInt())
         } finally {
             a.recycle()
         }
 
         View.inflate(getContext(), R.layout.device_status_layout, this)
 
-        this.mIconView = findViewById(R.id.icon) as ImageView
-        this.mTextView = findViewById(R.id.text) as TextView
+        this.iconView = findViewById(R.id.icon) as ImageView
+        this.textView = findViewById(R.id.text) as TextView
 
-        setStatus(mConnectionStatus)
+        setStatus(connectionStatus)
     }
 
     internal fun unregisterReceiver() {
         if (mRegisteredReceiver) {
-            context.unregisterReceiver(mReceiver)
+            context.unregisterReceiver(receiver)
             mRegisteredReceiver = false
         }
     }
 
     internal fun registerReceiver() {
         if (!mRegisteredReceiver) {
-            context.registerReceiver(mReceiver, mFilter)
+            context.registerReceiver(receiver, mFilter)
             mRegisteredReceiver = true
         }
     }

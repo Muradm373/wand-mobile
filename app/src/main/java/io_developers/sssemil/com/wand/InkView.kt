@@ -52,12 +52,9 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
-
 import com.phatware.android.RecoInterface.WritePadAPI
 import com.phatware.android.WritePadManager
-import kotlinx.android.synthetic.main.content_main.*
-
-import java.util.LinkedList
+import java.util.*
 
 class InkView @JvmOverloads constructor(context: android.content.Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle), OnInkViewListener {
     private val GRID_GAP = 65f
@@ -138,7 +135,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         invalidate()
     }
 
-    fun getBitmap():Bitmap {
+    fun getBitmap(): Bitmap {
         val b: Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config
                 .ARGB_8888)
 
@@ -274,7 +271,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         }
 
         // notify recognizer thread about data availability
-            rt.boundService?.dataNotify(nStrokeCnt)
+        rt.boundService?.dataNotify(nStrokeCnt)
     }
 
     private fun sendText() {
@@ -341,6 +338,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
 
         if (mStoredX > width) {
             mStoredX = 0f
+            mStoredY += 100
             action = MotionEvent.ACTION_OUTSIDE
         }
 
@@ -351,6 +349,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
 
         if (mStoredX < 0) {
             mStoredX = width.toFloat()
+            mStoredY -= 100
             action = MotionEvent.ACTION_OUTSIDE
         }
 

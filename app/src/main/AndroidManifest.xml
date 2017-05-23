@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="io_developers.sssemil.com.wand">
+    package="io_developers.sssemil.com.wand">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
-                android:name=".MainActivity"
-                android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AboutActivity">
-        </activity>
+        <activity android:name=".AboutActivity" />
 
-        <service android:name=".RecognizerService"/>
+        <service android:name=".RecognizerService" />
 
         <activity
-                android:name=".Account.LoginActivity"
-                android:theme="@style/AppTheme.Dark"/>
+            android:name=".Account.LoginActivity"
+            android:theme="@style/AppTheme.Dark" />
+
         <activity
-                android:name=".Account.SignupActivity"
-                android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".LicenseActivity">
-        </activity>
+            android:name=".Account.SignupActivity"
+            android:theme="@style/AppTheme.Dark" />
+
+        <activity android:name=".LicenseActivity" />
     </application>
 
 </manifest>

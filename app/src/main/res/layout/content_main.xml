@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/app_bar_main"
-        tools:context="io_developers.sssemil.com.wand.MainActivity">
-
-    <io_developers.sssemil.com.wand.DeviceStatusView android:layout_width="wrap_content"
-                                                     android:layout_height="wrap_content"
-                                                     app:status="disconnected"
-                                                     android:id="@+id/deviceState"
-                                                     android:layout_alignParentLeft="true"
-                                                     android:layout_alignParentStart="true"
-                                                     android:layout_alignParentRight="true"
-                                                     android:layout_alignParentEnd="true"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="io_developers.sssemil.com.wand.MainActivity"
+    tools:showIn="@layout/app_bar_main">
 
     <io_developers.sssemil.com.wand.InkView
-            android:id="@+id/ink_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/deviceState"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_above="@+id/line"/>
+        android:id="@+id/ink_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/deviceState"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <io_developers.sssemil.com.wand.DeviceStatusView
+        android:id="@+id/deviceState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line"
+        app:status="disconnected" />
 
     <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/oil"
-            android:layout_above="@+id/recognized_text"
-            android:id="@+id/line"/>
+        android:id="@+id/line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/recognized_text"
+        android:background="@color/oil" />
 
     <EditText
-            android:text="…"
-            android:layout_width="wrap_content"
-            android:layout_height="100sp"
-            android:id="@+id/recognized_text"
-            android:layout_alignParentBottom="true" android:layout_alignLeft="@+id/deviceState"
-            android:layout_alignStart="@+id/deviceState" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:inputType="textMultiLine"
-            android:ems="10"/>
+        android:id="@+id/recognized_text"
+        android:layout_width="wrap_content"
+        android:layout_height="100sp"
+        android:layout_alignLeft="@+id/deviceState"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@+id/deviceState"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="…" />
 
 </RelativeLayout>

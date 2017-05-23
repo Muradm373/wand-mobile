@@ -40,4 +40,12 @@
     <string name="pair_request">Please Pair the Device first</string>
     <string name="error">Error</string>
     <string name="color">Color</string>
+    <string name="version">Version:</string>
+    <string name="copyright"><![CDATA[Copyright © 2017 io_developers <iodevs1@gmail.com>]]></string>
+    <string name="action_save">Save</string>
+    <string name="share">Share</string>
+    <string name="saved_to">Saved to:</string>
+    <string name="permission_denied">Can\'t perform this operation without this permission! You
+        can enable it later in system settings.</string>
+    <string name="share_using">Share using</string>
 </resources>

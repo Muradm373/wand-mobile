@@ -5,14 +5,10 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
-import android.content.ComponentName
-import android.content.Intent
-import android.content.ServiceConnection
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -68,13 +64,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var headerEmailView: TextView? = null
     private var headerNameView: TextView? = null
 
+    private var filter: IntentFilter? = null
+    private var registeredReceiver = false
+
+    private var currentColorId: Int = 0
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+
+            if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
+                //Device is now connected
+                if (device != null && device.name == MainActivity.BT_DEVICE_NAME) {
+                    setStatus(DeviceStatusView.CONNECTED.toInt())
+                }
+            } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED == action) {
+                //Device has disconnected
+                if (device != null && device.name == MainActivity.BT_DEVICE_NAME) {
+                    setStatus(DeviceStatusView.DISCONNECTED.toInt())
+                }
+            }
+        }
+    }
+
     @SuppressLint("HandlerLeak")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        filter = IntentFilter()
+        filter!!.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+        filter!!.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED)
+        filter!!.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+
+        setStatus(DeviceStatusView.DISCONNECTED)
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
@@ -104,12 +131,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val lName = WritePadManager.getLanguageName()
         WritePadManager.setLanguage(lName, this)
 
-        val defaultDisplay = windowManager.defaultDisplay
-        val size = Point()
-        defaultDisplay.getSize(size)
-        val screenHeight = size.y
-        val textViewHeight = 15 * screenHeight / 100
-
         val colorList = intArrayOf(resources.getColor(R.color.green),
                 resources.getColor(R.color.light_green),
                 resources.getColor(R.color.lime),
@@ -123,18 +144,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 resources.getColor(R.color.indigo),
                 resources.getColor(R.color.black))
 
-
-        ink_view!!.brushColor = colorList.last()
-        layoutline.setBackgroundColor(colorList.last())
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(colorList.last()))
-
+        setColor(colorList.last())
 
         val gridView = findViewById(R.id.gridView) as GridView
 
         val ca = CustomAdapter(this, colorList, CustomAdapter.OnColorClick { colorId ->
-            ink_view!!.brushColor = colorId
-            layoutline.setBackgroundColor(colorId)
-            supportActionBar?.setBackgroundDrawable(ColorDrawable(colorId))
+            setColor(colorId)
         })
 
         gridView.adapter = ca
@@ -212,15 +227,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun setColor(colorId: Int) {
+        currentColorId = colorId
+        ink_view.brushColor = colorId
+        layoutline.setBackgroundColor(colorId)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(colorId))
+    }
+
     private fun registerReceivers() {
-        if (deviceState != null) {
-            deviceState!!.registerReceiver()
+        if (!registeredReceiver) {
+            registerReceiver(receiver, filter)
+            registeredReceiver = true
         }
     }
 
     private fun unregisterReceivers() {
-        if (deviceState != null) {
-            deviceState!!.unregisterReceiver()
+        if (registeredReceiver) {
+            unregisterReceiver(receiver)
+            registeredReceiver = false
         }
     }
 
@@ -433,7 +457,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (bluetoothAdapter == null) {
             runOnUiThread {
                 Toast.makeText(applicationContext, "Device doesn't Support Bluetooth :(", Toast.LENGTH_SHORT).show()
-                deviceState!!.setStatus(DeviceStatusView.ERROR.toInt())
+                setStatus(DeviceStatusView.ERROR.toInt())
             }
 
             return
@@ -477,14 +501,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     bluetoothSocket!!.connect()
                     runOnUiThread {
                         //Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
-                        deviceState!!.setStatus(DeviceStatusView.CONNECTED.toInt())
+                        setStatus(DeviceStatusView.CONNECTED.toInt())
                     }
                 } catch (e: IOException) {
                     try {
                         bluetoothSocket!!.close()
                     } catch (e2: IOException) {
                         Log.e("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.message + ".")
-                        runOnUiThread { deviceState!!.setStatus(DeviceStatusView.ERROR.toInt()) }
+                        runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
                         return
                     }
 
@@ -500,8 +524,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             } catch (e: IOException) {
                 Log.e("Fatal Error", "In onResume() and socket create failed: " + e.message + ".")
 
-                runOnUiThread { deviceState!!.setStatus(DeviceStatusView.ERROR.toInt()) }
+                runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
                 return
+            }
+        }
+    }
+
+    fun setStatus(status: Int) {
+        when (status) {
+            DeviceStatusView.DISCONNECTED -> {
+                supportActionBar?.setSubtitle(R.string.disconnected)
+                //iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
+            }
+            DeviceStatusView.CONNECTING -> {
+                supportActionBar?.setSubtitle(R.string.connecting)
+                //iconView!!.setBackgroundResource(R.drawable.ic_connecting)
+            }
+            DeviceStatusView.CONNECTED -> {
+                supportActionBar?.setSubtitle(R.string.connected)
+                //iconView!!.setBackgroundResource(R.drawable.ic_connected)
+            }
+            DeviceStatusView.ERROR -> {
+                supportActionBar?.setSubtitle(R.string.error)
+                //iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
             }
         }
     }

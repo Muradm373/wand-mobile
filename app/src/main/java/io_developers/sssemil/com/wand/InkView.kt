@@ -64,7 +64,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         private set
     private var textView: TextView? = null
     // Define the Handler that receives messages from the thread and update the progress
-    private val mHandler = object : Handler() {
+    private val handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             textView!!.text = ""
             val words = WritePadManager.recoResultColumnCount()
@@ -87,46 +87,40 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
     }
     private var mStoredX = 0f
     private var mStoredY = 0f
-    private var path: Path? = null
+    private var path: ColoredPath = ColoredPath(brushColor)
     private var mCurrStroke: Int = 0
-    private var mPaint: Paint? = null
-    private val mResultPaint: Paint
-    private val mPathList: LinkedList<Path>
+    private var paint: Paint = Paint()
+    private val resultPaint: Paint = Paint()
+    private val pathList: LinkedList<ColoredPath> = LinkedList<ColoredPath>()
     private var mX: Float = 0.toFloat()
     private var mY: Float = 0.toFloat()
     private var mMoved: Boolean = false
-    private val gridpath = Path()
-    private val mLastTime: Long = 0
+    private val gridPath = Path()
     private var mClickStart: Long = 0
-    private val mLastWasTouchUp = false
     private var mPrevWasShow: Boolean = false
 
     init {
-
-        path = Path()
-        mPathList = LinkedList<Path>()
         mCurrStroke = -1
-        mPaint = Paint()
-        mPaint = Paint()
-        mPaint!!.isAntiAlias = true
-        mPaint!!.isDither = true
-        mPaint!!.color = Color.WHITE
-        mPaint!!.style = Paint.Style.STROKE
-        mPaint!!.strokeJoin = Paint.Join.ROUND
-        mPaint!!.strokeCap = Paint.Cap.ROUND
-        mPaint!!.strokeWidth = 3f
 
-        mResultPaint = Paint()
-        mResultPaint.textSize = 32f
-        mResultPaint.isAntiAlias = true
-        mResultPaint.setARGB(0xff, 0x00, 0x00, 0x00)
+        paint = Paint()
+        paint.isAntiAlias = true
+        paint.isDither = true
+        paint.color = Color.WHITE
+        paint.style = Paint.Style.STROKE
+        paint.strokeJoin = Paint.Join.ROUND
+        paint.strokeCap = Paint.Cap.ROUND
+        paint.strokeWidth = 3f
+
+        resultPaint.textSize = 32f
+        resultPaint.isAntiAlias = true
+        resultPaint.setARGB(0xff, 0x00, 0x00, 0x00)
     }
 
     override fun cleanView(emptyAll: Boolean) {
         WritePadManager.recoResetInk()
         mCurrStroke = -1
-        mPathList.clear()
-        path!!.reset()
+        pathList.clear()
+        path.reset()
         textView!!.text = ""
 
         mStoredX = 0f
@@ -147,7 +141,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
     }
 
     override fun getHandler(): Handler {
-        return mHandler
+        return handler
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -155,30 +149,33 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
     }
 
     override fun onDraw(canvas: Canvas) {
-        mPaint!!.color = Color.WHITE
-        mPaint!!.strokeWidth = 1f
+        paint.color = Color.WHITE
+        paint.strokeWidth = 1f
 
         var y = GRID_GAP
         while (y < canvas.height) {
-            gridpath.reset()
-            gridpath.moveTo(0f, y)
-            gridpath.lineTo(canvas.width.toFloat(), y)
-            canvas.drawPath(gridpath, mPaint!!)
+            gridPath.reset()
+            gridPath.moveTo(0f, y)
+            gridPath.lineTo(canvas.width.toFloat(), y)
+            canvas.drawPath(gridPath, paint)
             y += GRID_GAP
         }
-        mPaint!!.color = brushColor
-        mPaint!!.strokeWidth = brushWidth.toFloat()
+        paint.color = brushColor
+        paint.strokeWidth = brushWidth.toFloat()
 
 
-        for (aMPathList in mPathList) {
-            canvas.drawPath(aMPathList, mPaint!!)
+        for (aMPathList in pathList) {
+            paint.color = aMPathList.color
+            canvas.drawPath(aMPathList, paint)
         }
-        canvas.drawPath(path!!, mPaint!!)
+        paint.color = path.color
+        canvas.drawPath(path, paint)
     }
 
     private fun touch_start(x: Float, y: Float) {
-        path!!.reset()
-        path!!.moveTo(x, y)
+        path.color = brushColor
+        path.reset()
+        path.moveTo(x, y)
         mX = x
         mY = y
         mMoved = false
@@ -193,10 +190,11 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
 
 
     private fun touch_move(x: Float, y: Float) {
+        path.color = brushColor
         val dx = Math.abs(x - mX)
         val dy = Math.abs(y - mY)
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            path!!.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
+            path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
             mMoved = true
             mX = x
             mY = y
@@ -211,14 +209,14 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
 
     fun touch_up() {
         // stopRecognizer();
-
         mCurrStroke = -1
         if (!mMoved)
             mX++
         mMoved = false
-        path!!.lineTo(mX, mY)
-        mPathList.add(path!!)
-        path = Path()
+        path.lineTo(mX, mY)
+        path.color = brushColor
+        pathList.add(path)
+        path = ColoredPath(brushColor)
         invalidate()
 
         val rt = context as MainActivity
@@ -230,7 +228,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
             if (gesturetype != WritePadAPI.GEST_NONE) {
                 // TODO: process gesture
                 WritePadManager.recoDeleteLastStroke()
-                mPathList.removeLast()
+                pathList.removeLast()
                 return
             }
         } else if (nStrokeCnt > 1) {
@@ -239,12 +237,12 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
             if (gesturetype != WritePadAPI.GEST_NONE && gesturetype != WritePadAPI.GEST_BACK) {
                 // TODO: process gesture
                 WritePadManager.recoDeleteLastStroke()
-                mPathList.removeLast()
+                pathList.removeLast()
                 when (gesturetype) {
                 // case WritePadAPI.GEST_BACK:
                     WritePadAPI.GEST_BACK_LONG -> {
                         WritePadManager.recoDeleteLastStroke()
-                        mPathList.removeLast()
+                        pathList.removeLast()
                         if (WritePadManager.recoStrokeCount() < 1) {
                             textView!!.text = ""
                         }

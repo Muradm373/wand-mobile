@@ -13,19 +13,19 @@
         android:id="@+id/ink_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/deviceState"
+        android:layout_above="@+id/line"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
-    <io_developers.sssemil.com.wand.DeviceStatusView
+    <!--<io_developers.sssemil.com.wand.DeviceStatusView
         android:id="@+id/deviceState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/line"
-        app:status="disconnected" />
+        app:status="disconnected" />-->
 
     <View
         android:id="@+id/line"
@@ -38,13 +38,13 @@
         android:id="@+id/recognized_text"
         android:layout_width="wrap_content"
         android:layout_height="100sp"
-        android:layout_alignLeft="@+id/deviceState"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignStart="@+id/deviceState"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:text="…" />
+        android:text="…"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

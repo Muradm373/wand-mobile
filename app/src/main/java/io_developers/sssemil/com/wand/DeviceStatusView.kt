@@ -20,27 +20,6 @@ class DeviceStatusView : LinearLayout {
     private var textView: TextView? = null
     private var iconView: ImageView? = null
 
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-
-            if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
-                //Device is now connected
-                if (device != null && device.name == MainActivity.BT_DEVICE_NAME) {
-                    setStatus(CONNECTED.toInt())
-                }
-            } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED == action) {
-                //Device has disconnected
-                if (device != null && device.name == MainActivity.BT_DEVICE_NAME) {
-                    setStatus(DISCONNECTED.toInt())
-                }
-            }
-        }
-    }
-    private var mFilter: IntentFilter? = null
-    private var mRegisteredReceiver = false
-
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init(context, attrs)
     }
@@ -74,13 +53,6 @@ class DeviceStatusView : LinearLayout {
     }
 
     private fun init(context: Context, attrs: AttributeSet) {
-        mFilter = IntentFilter()
-        mFilter!!.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-        mFilter!!.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED)
-        mFilter!!.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-
-        registerReceiver()
-
         val a = context.theme.obtainStyledAttributes(
                 attrs,
                 R.styleable.DeviceStatusView,
@@ -100,22 +72,8 @@ class DeviceStatusView : LinearLayout {
         setStatus(connectionStatus)
     }
 
-    internal fun unregisterReceiver() {
-        if (mRegisteredReceiver) {
-            context.unregisterReceiver(receiver)
-            mRegisteredReceiver = false
-        }
-    }
-
-    internal fun registerReceiver() {
-        if (!mRegisteredReceiver) {
-            context.registerReceiver(receiver, mFilter)
-            mRegisteredReceiver = true
-        }
-    }
 
     companion object {
-
         val ERROR: Int = -1
         val DISCONNECTED: Int = 0
         val CONNECTING: Int = 1

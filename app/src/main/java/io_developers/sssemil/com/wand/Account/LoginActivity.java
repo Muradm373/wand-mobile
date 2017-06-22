@@ -18,9 +18,6 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_EMAIL;
-import static io_developers.sssemil.com.wand.Account.ApiHelper.PREF_TOKEN;
-
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -106,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onNext(String token) {
                         Log.i("Login", "onNext " + token);
-                        mSharedPreferences.edit().putString(PREF_TOKEN, token).putString(PREF_EMAIL, email).apply();
+                        mSharedPreferences.edit().putString(ApiHelper.Companion.getPREF_TOKEN(), token).putString(ApiHelper.Companion.getPREF_EMAIL(), email).apply();
                     }
                 });
     }

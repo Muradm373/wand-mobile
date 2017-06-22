@@ -2,19 +2,16 @@ package io_developers.sssemil.com.wand
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothSocket
+import android.app.Activity
+import android.bluetooth.*
+import android.bluetooth.le.*
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.IBinder
+import android.os.*
 import android.preference.PreferenceManager
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -36,7 +33,9 @@ import com.phatware.android.WritePadFlagManager
 import com.phatware.android.WritePadManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io_developers.sssemil.com.wand.Account.ApiHelper
-import io_developers.sssemil.com.wand.Account.ApiHelper.*
+import io_developers.sssemil.com.wand.Account.ApiHelper.Companion.PREF_EMAIL
+import io_developers.sssemil.com.wand.Account.ApiHelper.Companion.PREF_NAME
+import io_developers.sssemil.com.wand.Account.ApiHelper.Companion.PREF_TOKEN
 import io_developers.sssemil.com.wand.Account.LoginActivity
 import io_developers.sssemil.com.wand.Account.SignupActivity
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -47,12 +46,23 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private var bluetoothAdapter: BluetoothAdapter? = null
+    private val REQUEST_ENABLE_BT = 1
+    private var scanHandler: Handler? = null
+    private var leScanner: BluetoothLeScanner? = null
+    private var settings: ScanSettings? = null
+    private var filters: List<ScanFilter>? = null
+    private var bluetoothGatt: BluetoothGatt? = null
+    private var bluetoothGattCharacteristic: BluetoothGattCharacteristic? = null
+
     internal var boundService: RecognizerService? = null
     private var handler: Handler? = null
+
     private var connectedThread: ConnectedThread? = null
     private val bufferArray = ArrayList<Byte>()
-    private var prevX: Int = 0
-    private var prevY: Int = 0
+    private var prevX: Byte = 0
+    private var prevY: Byte = 0
     private var connection: ServiceConnection? = null
     private var recoInit: Boolean = false
 
@@ -68,6 +78,77 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var registeredReceiver = false
 
     private var currentColorId: Int = 0
+
+    private val gattCallback = object : BluetoothGattCallback() {
+        override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
+            Log.i("onConnectionStateChange", "Status: " + status)
+            when (newState) {
+                BluetoothProfile.STATE_CONNECTED -> {
+                    Log.i("gattCallback", "STATE_CONNECTED")
+                    gatt.discoverServices()
+                }
+                BluetoothProfile.STATE_DISCONNECTED -> Log.e("gattCallback", "STATE_DISCONNECTED")
+                else -> Log.e("gattCallback", "STATE_OTHER")
+            }
+
+        }
+
+        override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
+            val services = gatt.services
+            Log.i("onServicesDiscovered", services.toString())
+            services.filter { it.uuid == BLE_UUID }
+                    .forEach {
+                gatt.readCharacteristic(it.characteristics[0])
+            }
+        }
+
+        override fun onCharacteristicRead(gatt: BluetoothGatt,
+                                          characteristic: BluetoothGattCharacteristic, status: Int) {
+            Log.i("onCharacteristicRead", characteristic.toString())
+            bluetoothGattCharacteristic = characteristic
+            bluetoothGatt?.setCharacteristicNotification(characteristic, true);
+
+            if (characteristic.descriptors.size > 0) {
+                val descriptor: BluetoothGattDescriptor = characteristic.getDescriptor(BLE_UUID)
+                descriptor.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+                bluetoothGatt?.writeDescriptor(descriptor)
+                //gatt.disconnect()
+            }
+        }
+
+        override fun onCharacteristicChanged(gatt: BluetoothGatt,
+                                             characteristic: BluetoothGattCharacteristic) {
+            Log.i("onCharacteristicChanged", characteristic.toString())
+
+            handler!!.obtainMessage(0, 0, 0, characteristic.value).sendToTarget()
+        }
+    }
+
+    private val scanCallback = object : ScanCallback() {
+        override fun onScanResult(callbackType: Int, result: ScanResult) {
+            Log.i("callbackType", callbackType.toString())
+            Log.i("result", result.toString())
+            val btDevice = result.device
+            connectToDevice(btDevice)
+        }
+
+        override fun onBatchScanResults(results: List<ScanResult>) {
+            for (sr in results) {
+                Log.i("ScanResult - Results", sr.toString())
+            }
+        }
+
+        override fun onScanFailed(errorCode: Int) {
+            Log.e("Scan Failed", "Error Code: " + errorCode)
+        }
+    }
+
+    private val leScanCallback = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
+        runOnUiThread {
+            Log.i("onLeScan", device.toString())
+            connectToDevice(device)
+        }
+    }
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -180,26 +261,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         handler = object : Handler() {
             override fun handleMessage(msg: android.os.Message) {
-                val sbprint = msg.obj as String
+                val bytes = msg.obj as ByteArray
 
-                Log.d("BT1", sbprint)
+                Log.d("BT1", bytes.toString())
 
-                var spl = sbprint.split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                if (spl.size == 4) {
-                    spl = Arrays.copyOfRange(spl, 1, 4)
-                }
-                if (spl.size >= 2 || spl.size == 3) {
+                if (bytes.size>=3) {
                     try {
-                        val x = -Integer.valueOf(spl[0])
-                        val y = Integer.valueOf(spl[1])!!
-
-                        var state = 1
-
-                        if (spl.size >= 3) {
-                            state = Integer.valueOf(spl[2])!!
-                        }
-
-                        if (x != prevX || y != prevY) {
+                        if (true || bytes[0] != prevX || bytes[1] != prevY) {
                             if (ink_view != null) {
                                 /*if (state == 1) {
                                     ink_view.addLine(x, y, false);
@@ -208,10 +276,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     ink_view.addLine(x, y, true);
                                 }*/
 
-                                ink_view!!.onWandEvent(x.toFloat(), y.toFloat(), state == 1)
+                                ink_view!!.onWandEvent(-bytes[0].toFloat(), bytes[1].toFloat(), bytes[2] == 1.toByte())
                             }
-                            prevX = x
-                            prevY = y
+                            prevX = bytes[0]
+                            prevY = bytes[1]
                         }
                     } catch (ignored: NumberFormatException) {
                     }
@@ -225,6 +293,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+
+        scanHandler = Handler()
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            Toast.makeText(applicationContext, getString(R.string.no_bt_support_error), Toast.LENGTH_SHORT).show()
+            setStatus(DeviceStatusView.ERROR)
+        }
+        val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothAdapter = bluetoothManager.adapter
     }
 
     private fun setColor(colorId: Int) {
@@ -423,7 +499,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         super.onResume()
 
-        Thread(Runnable { findWand() }).start()
+        if (bluetoothAdapter == null || !bluetoothAdapter!!.isEnabled) {
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+        } else {
+            if (Build.VERSION.SDK_INT >= 21) {
+                leScanner = bluetoothAdapter!!.bluetoothLeScanner
+                settings = ScanSettings.Builder()
+                        .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                        .build()
+                filters = java.util.ArrayList<ScanFilter>()
+            }
+            scanLeDevice(true)
+        }
+
+        //Thread(Runnable { findWand() }).start()
 
         registerReceivers()
     }
@@ -436,15 +526,69 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         unregisterReceivers()
+
+        if (bluetoothAdapter != null && bluetoothAdapter!!.isEnabled) {
+            scanLeDevice(false)
+        }
     }
 
     override fun onDestroy() {
         unbindService(connection)
+
+        if (bluetoothGatt == null) {
+            return
+        }
+        bluetoothGatt!!.close()
+        bluetoothGatt = null
+
         super.onDestroy()
         if (recoInit) {
             WritePadManager.recoFree()
         }
         recoInit = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Bluetooth not enabled.
+                finish()
+                return
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun scanLeDevice(enable: Boolean) {
+        if (enable) {
+            scanHandler!!.postDelayed({
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    bluetoothAdapter!!.stopLeScan(leScanCallback)
+                } else {
+                    leScanner!!.stopScan(scanCallback)
+
+                }
+            }, SCAN_PERIOD)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                bluetoothAdapter!!.startLeScan(leScanCallback)
+            } else {
+                leScanner!!.startScan(filters, settings, scanCallback)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                bluetoothAdapter!!.stopLeScan(leScanCallback)
+            } else {
+                leScanner!!.stopScan(scanCallback)
+            }
+        }
+    }
+
+
+    fun connectToDevice(device: BluetoothDevice) {
+        if (bluetoothGatt == null) {
+            bluetoothGatt = device.connectGatt(this, false, gattCallback)
+            scanLeDevice(false)// will stop after first device detection
+        }
     }
 
     private fun findWand() {
@@ -453,80 +597,72 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             connectedThread = null
         }
 
-        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bluetoothAdapter == null) {
             runOnUiThread {
-                Toast.makeText(applicationContext, "Device doesn't Support Bluetooth :(", Toast.LENGTH_SHORT).show()
-                setStatus(DeviceStatusView.ERROR.toInt())
+                Toast.makeText(applicationContext, getString(R.string.no_bt_support_error), Toast.LENGTH_SHORT).show()
+                setStatus(DeviceStatusView.ERROR)
             }
 
             return
-        }
-
-        if (!bluetoothAdapter.isEnabled) {
+        } else if (!(bluetoothAdapter as BluetoothAdapter).isEnabled) {
             val enableAdapter = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableAdapter, 0)
-        }
-
-        val bondedDevices = bluetoothAdapter.bondedDevices
-
-        var device: BluetoothDevice? = null
-
-        if (bondedDevices.isEmpty()) {
-            runOnUiThread {
-                Toast.makeText(applicationContext, getString(R.string.pair_request), Toast.LENGTH_SHORT).show()
-                //deviceState.setStatus(DeviceStatusView.DISCONNECTED);
-            }
         } else {
-            for (iterator in bondedDevices) {
-                Log.i("name", iterator.name)
-                if (iterator.name == BT_DEVICE_NAME) {
-                    device = iterator //device is an object of type BluetoothDevice
-                    break
+            /*val bondedDevices = (bluetoothAdapter as BluetoothAdapter).bondedDevices
+
+            var device: BluetoothDevice? = null
+
+            if (bondedDevices == null || bondedDevices.isEmpty()) {
+                runOnUiThread {
+                    Toast.makeText(applicationContext, getString(R.string.pair_request), Toast.LENGTH_SHORT).show()
+                    //deviceState.setStatus(DeviceStatusView.DISCONNECTED);
+                }
+            } else {
+                for (iterator in bondedDevices) {
+                    Log.i("name", iterator.name)
+                    if (iterator.name == BT_DEVICE_NAME) {
+                        device = iterator //device is an object of type BluetoothDevice
+                        break
+                    }
                 }
             }
-        }
 
-        if (device != null) {
-            /*runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //deviceState.setStatus(DeviceStatusView.CONNECTING);
-                }
-            });*/
-            try {
-                val bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID)
-
+            if (device != null) {
                 try {
-                    bluetoothSocket!!.connect()
-                    runOnUiThread {
-                        //Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
-                        setStatus(DeviceStatusView.CONNECTED.toInt())
-                    }
-                } catch (e: IOException) {
+                    val bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID)
+
                     try {
-                        bluetoothSocket!!.close()
-                    } catch (e2: IOException) {
-                        Log.e("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.message + ".")
-                        runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
-                        return
+                        bluetoothSocket!!.connect()
+                        runOnUiThread {
+                            //Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+                            setStatus(DeviceStatusView.CONNECTED.toInt())
+                        }
+                    } catch (e: IOException) {
+                        try {
+                            bluetoothSocket!!.close()
+                        } catch (e2: IOException) {
+                            Log.e("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.message + ".")
+                            runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
+                            return
+                        }
+
                     }
 
+                    if (connectedThread != null) {
+                        connectedThread!!.cancel()
+                        connectedThread = null
+                    }
+
+                    connectedThread = ConnectedThread(bluetoothSocket)
+                    connectedThread!!.start()
+                } catch (e: IOException) {
+                    Log.e("Fatal Error", "In onResume() and socket create failed: " + e.message + ".")
+
+                    runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
+                    return
                 }
-
-                if (connectedThread != null) {
-                    connectedThread!!.cancel()
-                    connectedThread = null
-                }
-
-                connectedThread = ConnectedThread(bluetoothSocket)
-                connectedThread!!.start()
-            } catch (e: IOException) {
-                Log.e("Fatal Error", "In onResume() and socket create failed: " + e.message + ".")
-
-                runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
-                return
-            }
+            }*/
         }
     }
 
@@ -661,8 +797,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     companion object {
+        private val SCAN_PERIOD: Long = 10000
         val BT_DEVICE_NAME = "SPP-CA"
         private val MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+        private val BLE_UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb")
         private val REQUEST_READ_EXTERNAL_STORAGE_SAVE: Int = 123
         private val REQUEST_READ_EXTERNAL_STORAGE_SHARE: Int = 124
     }

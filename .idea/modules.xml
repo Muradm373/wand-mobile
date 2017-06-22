@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WandRewritten.iml" filepath="$PROJECT_DIR$/WandRewritten.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Wand.iml" filepath="$PROJECT_DIR$/Wand.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

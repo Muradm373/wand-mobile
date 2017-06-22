@@ -49,4 +49,5 @@
         can enable it later in system settings.</string>
     <string name="share_using">Share using</string>
     <string name="icon">Icon</string>
+    <string name="no_bt_support_error">Device doesn\'t Support Bluetooth :(</string>
 </resources>

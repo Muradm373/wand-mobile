@@ -7,12 +7,13 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "io_developers.sssemil.com.wand"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -36,6 +37,8 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.github.k0shk0sh:PermissionHelper:1.1.0'
+
+    compile 'com.android.support:multidex:1.0.1'
 
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

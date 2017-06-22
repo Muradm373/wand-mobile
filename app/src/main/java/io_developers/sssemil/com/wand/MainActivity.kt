@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val descriptor: BluetoothGattDescriptor = characteristic.getDescriptor(BLE_UUID)
                 descriptor.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
                 bluetoothGatt?.writeDescriptor(descriptor)
-                //gatt.disconnect()
+                gatt.disconnect()
             }
         }
 
@@ -267,7 +267,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 if (bytes.size>=3) {
                     try {
-                        if (true || bytes[0] != prevX || bytes[1] != prevY) {
+                        if (bytes[0] != prevX || bytes[1] != prevY) {
                             if (ink_view != null) {
                                 /*if (state == 1) {
                                     ink_view.addLine(x, y, false);
@@ -533,6 +533,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         unbindService(connection)
 
         if (bluetoothGatt == null) {
@@ -541,7 +542,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bluetoothGatt!!.close()
         bluetoothGatt = null
 
-        super.onDestroy()
         if (recoInit) {
             WritePadManager.recoFree()
         }

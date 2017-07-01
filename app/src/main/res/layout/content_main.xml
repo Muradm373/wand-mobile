@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="io_developers.sssemil.com.wand.MainActivity"
+    tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <io_developers.sssemil.com.wand.InkView
+    <iodevelopers.sssemil.com.wand.InkView
         android:id="@+id/ink_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -20,12 +20,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
-    <!--<io_developers.sssemil.com.wand.DeviceStatusView
+    <iodevelopers.sssemil.com.wand.DeviceStatusView
         android:id="@+id/deviceState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/line"
-        app:status="disconnected" />-->
+        app:status="disconnected" />
 
     <View
         android:id="@+id/line"

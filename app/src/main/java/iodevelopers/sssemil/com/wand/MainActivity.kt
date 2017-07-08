@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -516,7 +517,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             scanLeDevice(true)
         }
 
-        //Thread(Runnable { findWand() }).start()
+        Thread(Runnable { findWand() }).start()
 
         registerReceivers()
     }
@@ -611,7 +612,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val enableAdapter = android.content.Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableAdapter, 0)
         } else {
-            /*val bondedDevices = (bluetoothAdapter as BluetoothAdapter).bondedDevices
+            val bondedDevices = (bluetoothAdapter as BluetoothAdapter).bondedDevices
 
             var device: BluetoothDevice? = null
 
@@ -664,7 +665,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
                     return
                 }
-            }*/
+            }
         }
     }
 
@@ -751,22 +752,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         for (i in 0..numBytes - 1) {
                             bufferArray.add(mmBuffer!![i])
                         }
-                        // если встречаем конец строки,
-                        var sbprint = StringBuilder()
+
+                        var bytes: ByteArray = byteArrayOf()
+
                         var i = 0
+                        var j = 0
                         while (i < bufferArray.size) {
                             if (bufferArray[i] == 127.toByte()) {
-                                if (sbprint.isNotEmpty()) {
-                                    handler!!.obtainMessage(0, 0, 0, sbprint.toString()).sendToTarget()
+                                if (bytes.size >= 3) {
+                                    handler!!.obtainMessage(0, 0, 0, bytes).sendToTarget()
                                 }
-                                sbprint = StringBuilder()
-                                val j = 0
-                                while (j <= i) {
-                                    bufferArray.removeAt(j)
+                                bytes = byteArrayOf()
+                                j = 0
+                                while (i >= 0) {
+                                    bufferArray.removeAt(0)
                                     i--
                                 }
                             } else {
-                                sbprint.append(bufferArray[i]).append(";")
+                                bytes[j] = bufferArray[i]
+                                j++
                             }
                             i++
                         }
@@ -781,7 +785,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     findWand()
                     break
                 }
-
             }
 
             try {

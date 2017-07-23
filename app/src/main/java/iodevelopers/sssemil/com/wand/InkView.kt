@@ -219,7 +219,11 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
             if (gesturetype != com.phatware.android.RecoInterface.WritePadAPI.GEST_NONE) {
                 // TODO: process gesture
                 com.phatware.android.WritePadManager.recoDeleteLastStroke()
-                pathList.removeLast()
+
+                if(pathList.size>0) {
+                    pathList.removeLast()
+                }
+
                 return
             }
         } else if (nStrokeCnt > 1) {
@@ -228,12 +232,19 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
             if (gesturetype != com.phatware.android.RecoInterface.WritePadAPI.GEST_NONE && gesturetype != com.phatware.android.RecoInterface.WritePadAPI.GEST_BACK) {
                 // TODO: process gesture
                 com.phatware.android.WritePadManager.recoDeleteLastStroke()
-                pathList.removeLast()
+
+                if(pathList.size>0) {
+                    pathList.removeLast()
+                }
+
                 when (gesturetype) {
                 // case WritePadAPI.GEST_BACK:
                     com.phatware.android.RecoInterface.WritePadAPI.GEST_BACK_LONG -> {
                         com.phatware.android.WritePadManager.recoDeleteLastStroke()
-                        pathList.removeLast()
+                        if(pathList.size>0) {
+                            pathList.removeLast()
+                        }
+
                         if (com.phatware.android.WritePadManager.recoStrokeCount() < 1) {
                             textView!!.text = ""
                         }

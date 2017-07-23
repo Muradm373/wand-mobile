@@ -21,6 +21,7 @@ import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import iodevelopers.sssemil.com.wand.Account.ApiHelper
 import iodevelopers.sssemil.com.wand.Account.LoginActivity
 import iodevelopers.sssemil.com.wand.Account.SignupActivity
@@ -96,7 +97,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             bluetoothGatt?.setCharacteristicNotification(characteristic, true);
 
             if (characteristic.descriptors.size > 0) {
+                /*characteristic.descriptors.forEach{
+                    it.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+                    bluetoothGatt?.writeDescriptor(it)
+                }
+                gatt.disconnect()*/
+
                 val descriptor: BluetoothGattDescriptor = characteristic.getDescriptor(MainActivity.Companion.BLE_UUID)
+
                 descriptor.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
                 bluetoothGatt?.writeDescriptor(descriptor)
                 gatt.disconnect()
@@ -119,8 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         Log.i("callbackType", callbackType.toString())
                         Log.i("result", result.toString())
-                        val btDevice: BluetoothDevice?
-                        btDevice = result.device
+                        val btDevice: BluetoothDevice = result.device
 
                         connectToDevice(btDevice)
                     }
@@ -231,6 +238,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val ca = CustomAdapter(this, colorList, CustomAdapter.OnColorClick { colorId ->
             setColor(colorId)
+            sliding_layout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         })
 
         gridView.adapter = ca
@@ -348,10 +356,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (id) {
             R.id.action_settings -> {
-                if (sliding_layout!!.panelState != com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    sliding_layout!!.panelState = com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED
+                if (sliding_layout.panelState != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    sliding_layout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
                 } else {
-                    sliding_layout!!.panelState = com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
+                    sliding_layout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
                 }
                 return true
             }
@@ -517,7 +525,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             scanLeDevice(true)
         }
 
-        Thread(Runnable { findWand() }).start()
+        //Thread(Runnable { findWand() }).start()
 
         registerReceivers()
     }

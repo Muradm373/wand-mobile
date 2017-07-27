@@ -45,7 +45,12 @@
 package iodevelopers.sssemil.com.wand
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.util.Log
+import android.view.MotionEvent
+import android.widget.TextView
+import com.phatware.android.WritePadManager
+
 
 class InkView @JvmOverloads constructor(context: android.content.Context, attrs: android.util.AttributeSet? = null, defStyle: Int = 0) : android.view.View(context, attrs, defStyle), OnInkViewListener {
     private val GRID_GAP = 65f
@@ -59,17 +64,17 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
     object : android.os.Handler() {
         override fun handleMessage(msg: android.os.Message) {
             textView!!.text = ""
-            val words = com.phatware.android.WritePadManager.recoResultColumnCount()
+            val words = WritePadManager.recoResultColumnCount()
             for (w in 0..words - 1) {
-                val alternatives = com.phatware.android.WritePadManager.recoResultRowCount(w)
+                val alternatives = WritePadManager.recoResultRowCount(w)
                 if (alternatives > 0) {
                     val alternativesCollection = arrayOfNulls<CharSequence>(alternatives)
                     for (a in 0..alternatives - 1) {
-                        val word = com.phatware.android.WritePadManager.recoResultWord(w, a)
+                        val word = WritePadManager.recoResultWord(w, a)
                         alternativesCollection[a] = word
                     }
 
-                    wordsss = com.phatware.android.WritePadManager.recoResultWord(w, 0)
+                    wordsss = WritePadManager.recoResultWord(w, 0)
 
                     textView!!.text = textView!!.text.toString() + " " + wordsss
                 }
@@ -109,7 +114,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
     }
 
     override fun cleanView(emptyAll: Boolean) {
-        com.phatware.android.WritePadManager.recoResetInk()
+        WritePadManager.recoResetInk()
         mCurrStroke = -1
         pathList.clear()
         path.reset()
@@ -161,6 +166,11 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         }
         paint.color = path.color
         canvas.drawPath(path, paint)
+
+        val tmpStyle = paint.style
+        paint.style = Paint.Style.FILL
+        canvas.drawCircle(mStoredX, mStoredY, 10f, paint)
+        paint.style = tmpStyle
     }
 
     private fun touch_start(x: Float, y: Float) {
@@ -170,15 +180,14 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         mX = x
         mY = y
         mMoved = false
-        mCurrStroke = com.phatware.android.WritePadManager.recoNewStroke(3.0f, 0xFF0000FF.toInt())
+        mCurrStroke = WritePadManager.recoNewStroke(3.0f, 0xFF0000FF.toInt())
         if (mCurrStroke >= 0) {
-            val res = com.phatware.android.WritePadManager.recoAddPixel(mCurrStroke, x, y)
+            val res = WritePadManager.recoAddPixel(mCurrStroke, x, y)
             if (res < 1) {
                 // TODO: error
             }
         }
     }
-
 
     private fun touch_move(x: Float, y: Float) {
         path.color = brushColor
@@ -190,7 +199,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
             mX = x
             mY = y
             if (mCurrStroke >= 0) {
-                val res = com.phatware.android.WritePadManager.recoAddPixel(mCurrStroke, x, y)
+                val res = WritePadManager.recoAddPixel(mCurrStroke, x, y)
                 if (res < 1) {
                     // TODO: error
                 }
@@ -211,16 +220,16 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         invalidate()
 
         val rt = context as MainActivity
-        val nStrokeCnt = com.phatware.android.WritePadManager.recoStrokeCount()
+        val nStrokeCnt = WritePadManager.recoStrokeCount()
         if (nStrokeCnt == 1) {
             var gesturetype = com.phatware.android.RecoInterface.WritePadAPI.GEST_DELETE + com.phatware.android.RecoInterface.WritePadAPI.GEST_RETURN + com.phatware.android.RecoInterface.WritePadAPI.GEST_SPACE +
                     com.phatware.android.RecoInterface.WritePadAPI.GEST_TAB + com.phatware.android.RecoInterface.WritePadAPI.GEST_BACK + com.phatware.android.RecoInterface.WritePadAPI.GEST_UNDO
-            gesturetype = com.phatware.android.WritePadManager.recoGesture(gesturetype)
+            gesturetype = WritePadManager.recoGesture(gesturetype)
             if (gesturetype != com.phatware.android.RecoInterface.WritePadAPI.GEST_NONE) {
                 // TODO: process gesture
-                com.phatware.android.WritePadManager.recoDeleteLastStroke()
+                WritePadManager.recoDeleteLastStroke()
 
-                if(pathList.size>0) {
+                if (pathList.size > 0) {
                     pathList.removeLast()
                 }
 
@@ -228,28 +237,28 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
             }
         } else if (nStrokeCnt > 1) {
             var gesturetype = com.phatware.android.RecoInterface.WritePadAPI.GEST_CUT + com.phatware.android.RecoInterface.WritePadAPI.GEST_BACK + com.phatware.android.RecoInterface.WritePadAPI.GEST_RETURN
-            gesturetype = com.phatware.android.WritePadManager.recoGesture(gesturetype)
+            gesturetype = WritePadManager.recoGesture(gesturetype)
             if (gesturetype != com.phatware.android.RecoInterface.WritePadAPI.GEST_NONE && gesturetype != com.phatware.android.RecoInterface.WritePadAPI.GEST_BACK) {
                 // TODO: process gesture
-                com.phatware.android.WritePadManager.recoDeleteLastStroke()
+                WritePadManager.recoDeleteLastStroke()
 
-                if(pathList.size>0) {
+                if (pathList.size > 0) {
                     pathList.removeLast()
                 }
 
                 when (gesturetype) {
                 // case WritePadAPI.GEST_BACK:
                     com.phatware.android.RecoInterface.WritePadAPI.GEST_BACK_LONG -> {
-                        com.phatware.android.WritePadManager.recoDeleteLastStroke()
-                        if(pathList.size>0) {
+                        WritePadManager.recoDeleteLastStroke()
+                        if (pathList.size > 0) {
                             pathList.removeLast()
                         }
 
-                        if (com.phatware.android.WritePadManager.recoStrokeCount() < 1) {
+                        if (WritePadManager.recoStrokeCount() < 1) {
                             textView!!.text = ""
                         }
 
-                        rt.boundService?.dataNotify(com.phatware.android.WritePadManager.recoStrokeCount())
+                        rt.boundService?.dataNotify(WritePadManager.recoStrokeCount())
                         return
                     }
 
@@ -279,17 +288,17 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
 
     }
 
-    override fun onTouchEvent(event: android.view.MotionEvent): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
 
         when (event.action) {
-            android.view.MotionEvent.ACTION_DOWN -> {
+            MotionEvent.ACTION_DOWN -> {
                 touch_start(x, y)
                 invalidate()
             }
 
-            android.view.MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_MOVE -> {
                 var i = 0
                 val n = event.historySize
                 while (i < n) {
@@ -301,7 +310,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
                 invalidate()
             }
 
-            android.view.MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP -> {
                 touch_up()
                 invalidate()
 
@@ -323,57 +332,58 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         var action: Int
 
         if (mPrevWasShow && !show) {
-            action = android.view.MotionEvent.ACTION_UP
+            action = MotionEvent.ACTION_UP
             Log.i("onWandEvent", "UP x: $mStoredX y: $mStoredY")
         } else if (mPrevWasShow) {
-            action = android.view.MotionEvent.ACTION_MOVE
+            action = MotionEvent.ACTION_MOVE
             Log.i("onWandEvent", "MOVE x: $mStoredX y: $mStoredY")
         } else if (show) {
-            action = android.view.MotionEvent.ACTION_DOWN
+            action = MotionEvent.ACTION_DOWN
             Log.i("onWandEvent", "DOWN x: $mStoredX y: $mStoredY")
         } else {
-            Log.i("onWandEvent", "NULL x: $mStoredX y: $mStoredY")
+            Log.e("onWandEvent", "NULL x: $mStoredX y: $mStoredY")
+            invalidate()
             return
         }
 
         if (mStoredX > width) {
             mStoredX = 0f
             mStoredY += 100
-            action = android.view.MotionEvent.ACTION_OUTSIDE
+            action = MotionEvent.ACTION_OUTSIDE
         }
 
         if (mStoredY > height) {
             mStoredY = 0f
-            action = android.view.MotionEvent.ACTION_OUTSIDE
+            action = MotionEvent.ACTION_OUTSIDE
         }
 
         if (mStoredX < 0) {
             mStoredX = width.toFloat()
             mStoredY -= 100
-            action = android.view.MotionEvent.ACTION_OUTSIDE
+            action = MotionEvent.ACTION_OUTSIDE
         }
 
         if (mStoredY < 0) {
             mStoredY = height.toFloat()
-            action = android.view.MotionEvent.ACTION_OUTSIDE
+            action = MotionEvent.ACTION_OUTSIDE
         }
 
         when (action) {
-            android.view.MotionEvent.ACTION_DOWN -> {
+            MotionEvent.ACTION_DOWN -> {
                 touch_start(mStoredX, mStoredY)
                 invalidate()
             }
 
-            android.view.MotionEvent.ACTION_MOVE -> {
+            MotionEvent.ACTION_MOVE -> {
                 touch_move(mStoredX, mStoredY)
                 invalidate()
             }
 
-            android.view.MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP -> {
                 touch_up()
                 invalidate()
             }
-            android.view.MotionEvent.ACTION_OUTSIDE -> {
+            MotionEvent.ACTION_OUTSIDE -> {
                 touch_up()
                 touch_start(mStoredX, mStoredY)
                 invalidate()
@@ -383,7 +393,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         mPrevWasShow = show
     }
 
-    fun setRecognizedTextContainer(textView: android.widget.TextView) {
+    fun setRecognizedTextContainer(textView: TextView) {
         this.textView = textView
     }
 

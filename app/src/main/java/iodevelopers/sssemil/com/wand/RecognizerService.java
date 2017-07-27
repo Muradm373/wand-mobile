@@ -55,6 +55,7 @@ import android.os.Message;
 
 import com.phatware.android.WritePadManager;
 
+
 public class RecognizerService extends Service {
     // Instantiate local binder
     private final IBinder mBinder = new RecognizerBinder();

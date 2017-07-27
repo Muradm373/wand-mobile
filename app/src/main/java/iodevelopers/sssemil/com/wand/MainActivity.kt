@@ -21,6 +21,7 @@ import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.phatware.android.WritePadManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import iodevelopers.sssemil.com.wand.Account.ApiHelper
 import iodevelopers.sssemil.com.wand.Account.LoginActivity
@@ -74,8 +75,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 BluetoothProfile.STATE_CONNECTED -> {
                     Log.i("gattCallback", "STATE_CONNECTED")
                     gatt.discoverServices()
+                    setStatus(DeviceStatusView.CONNECTED)
                 }
-                BluetoothProfile.STATE_DISCONNECTED -> Log.e("gattCallback", "STATE_DISCONNECTED")
+                BluetoothProfile.STATE_DISCONNECTED -> {
+                    setStatus(DeviceStatusView.DISCONNECTED)
+                    Log.e("gattCallback", "STATE_DISCONNECTED")
+                }
                 else -> Log.e("gattCallback", "STATE_OTHER")
             }
 
@@ -97,12 +102,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             bluetoothGatt?.setCharacteristicNotification(characteristic, true);
 
             if (characteristic.descriptors.size > 0) {
-                /*characteristic.descriptors.forEach{
-                    it.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
-                    bluetoothGatt?.writeDescriptor(it)
-                }
-                gatt.disconnect()*/
-
                 val descriptor: BluetoothGattDescriptor = characteristic.getDescriptor(MainActivity.Companion.BLE_UUID)
 
                 descriptor.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
@@ -216,8 +215,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setLoggedIn(sharedPreferences!!.getString(ApiHelper.Companion.PREF_TOKEN, null) != null)
 
         // initialize ink inkView class
-        val lName = com.phatware.android.WritePadManager.getLanguageName()
-        com.phatware.android.WritePadManager.setLanguage(lName, this)
+        val lName = WritePadManager.getLanguageName()
+        WritePadManager.setLanguage(lName, this)
 
         val colorList = intArrayOf(resources.getColor(R.color.green),
                 resources.getColor(R.color.light_green),
@@ -275,7 +274,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 if (bytes.size >= 3) {
                     try {
-                        if (bytes[0] != prevX || bytes[1] != prevY) {
+                        if (true || bytes[0] != prevX || bytes[1] != prevY) {
                             if (ink_view != null) {
                                 /*if (state == 1) {
                                     ink_view.addLine(x, y, false);
@@ -284,7 +283,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     ink_view.addLine(x, y, true);
                                 }*/
 
-                                ink_view!!.onWandEvent(-bytes[0].toFloat(), bytes[1].toFloat(), bytes[2] == 1.toByte())
+                                ink_view!!.onWandEvent(bytes[0].toFloat(), -bytes[1].toFloat(), bytes[2] == 1.toByte())
                             }
                             prevX = bytes[0]
                             prevY = bytes[1]
@@ -555,7 +554,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bluetoothGatt = null
 
         if (recoInit) {
-            com.phatware.android.WritePadManager.recoFree()
+            WritePadManager.recoFree()
         }
         recoInit = false
     }

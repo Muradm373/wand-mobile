@@ -50,4 +50,13 @@
     <string name="share_using">Share using</string>
     <string name="icon">Icon</string>
     <string name="no_bt_support_error">Device doesn\'t Support Bluetooth :(</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_header_drawer">Drawer</string>
+    <string name="pref_title_invert_x_y">Invert X and Y</string>
+    <string name="pref_description_invert_x_y">X goes to Y, and Y goes to X</string>
+    <string name="pref_title_revert_x">Revert X</string>
+    <string name="pref_title_revert_y">Revert Y</string>
+    <string name="pref_description_revert_y">Like Y*=-1</string>
+    <string name="pref_description_revert_x">Like X*=-1</string>
 </resources>

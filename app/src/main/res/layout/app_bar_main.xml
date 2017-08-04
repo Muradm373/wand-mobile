@@ -16,7 +16,6 @@
         sothree:umanoFadeColor="#FFFFFF"
         sothree:umanoOverlay="true"
         sothree:umanoPanelHeight="5dp"
-        sothree:umanoParalaxOffset="113dp"
         sothree:umanoShadowHeight="4dp">
 
         <RelativeLayout

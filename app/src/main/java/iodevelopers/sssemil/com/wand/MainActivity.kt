@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.IBinder
+import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
@@ -67,6 +68,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var registeredReceiver = false
 
     private var currentColorId: Int = 0
+
+    private var invertXY = false
+    private var revertX = false
+    private var revertY = false
 
     private val gattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
@@ -164,12 +169,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
                 //Device is now connected
                 if (device != null && device.name == MainActivity.Companion.BT_DEVICE_NAME) {
-                    setStatus(DeviceStatusView.Companion.CONNECTED.toInt())
+                    setStatus(DeviceStatusView.Companion.CONNECTED)
                 }
             } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED == action) {
                 //Device has disconnected
                 if (device != null && device.name == MainActivity.Companion.BT_DEVICE_NAME) {
-                    setStatus(DeviceStatusView.Companion.DISCONNECTED.toInt())
+                    setStatus(DeviceStatusView.Companion.DISCONNECTED)
+                    startScan()
                 }
             }
         }
@@ -209,8 +215,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         loginMenuItem = navMenu.findItem(R.id.nav_login)
         signupMenuItem = navMenu.findItem(R.id.nav_sign_up)
 
-        sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
+
+        invertXY = sharedPreferences!!.getBoolean(PREF_INVERT_XY, false)
+        revertX = sharedPreferences!!.getBoolean(PREF_REVERT_X, false)
+        revertY = sharedPreferences!!.getBoolean(PREF_REVERT_Y, false)
 
         setLoggedIn(sharedPreferences!!.getString(ApiHelper.Companion.PREF_TOKEN, null) != null)
 
@@ -266,6 +276,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         bindService(android.content.Intent(this, RecognizerService::class.java), connection, android.content.Context.BIND_AUTO_CREATE)
 
+        ink_view!!.onWandEvent(500f,
+                500f, false)
+
         handler = object : android.os.Handler() {
             override fun handleMessage(msg: android.os.Message) {
                 val bytes = msg.obj as ByteArray
@@ -283,7 +296,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     ink_view.addLine(x, y, true);
                                 }*/
 
-                                ink_view!!.onWandEvent(bytes[0].toFloat(), -bytes[1].toFloat(), bytes[2] == 1.toByte())
+                                ink_view!!.onWandEvent(
+                                        (
+                                                if (invertXY) bytes[0].toFloat()
+                                                else bytes[1].toFloat()) * (if (revertX) -1 else 1),
+                                        (
+                                                if (invertXY) bytes[1].toFloat()
+                                                else bytes[0].toFloat()) * (if (revertY) -1 else 1),
+                                        bytes[2] != 1.toByte())
                             }
                             prevX = bytes[0]
                             prevY = bytes[1]
@@ -479,6 +499,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(android.content.Intent(this, AboutActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
+            R.id.nav_settings -> {
+                startActivity(android.content.Intent(this, SettingsActivity::class.java))
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
+            }
             R.id.nav_license -> {
                 startActivity(android.content.Intent(this, LicenseActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
@@ -510,6 +534,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         super.onResume()
 
+        startScan()
+
+        //Thread(Runnable { findWand() }).start()
+
+        registerReceivers()
+    }
+
+    private fun startScan() {
+        Log.i("ble", "startScan")
         if (bluetoothAdapter == null || !bluetoothAdapter!!.isEnabled) {
             val enableBtIntent = android.content.Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
@@ -523,10 +556,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             scanLeDevice(true)
         }
-
-        //Thread(Runnable { findWand() }).start()
-
-        registerReceivers()
     }
 
     public override fun onPause() {
@@ -713,8 +742,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == ApiHelper.Companion.PREF_TOKEN) {
-            setLoggedIn(sharedPreferences.getString(ApiHelper.Companion.PREF_TOKEN, null) != null)
+        when(key){
+            ApiHelper.PREF_TOKEN->{
+                setLoggedIn(sharedPreferences.getString(ApiHelper.Companion.PREF_TOKEN, null) != null)
+            }
+            PREF_INVERT_XY->{
+                invertXY = sharedPreferences.getBoolean(key, false)
+            }
+            PREF_REVERT_X->{
+                revertX = sharedPreferences.getBoolean(key, false)
+            }
+            PREF_REVERT_Y->{
+                revertY = sharedPreferences.getBoolean(key, false)
+            }
         }
     }
 
@@ -815,5 +855,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         private val BLE_UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb")
         private val REQUEST_READ_EXTERNAL_STORAGE_SAVE: Int = 123
         private val REQUEST_READ_EXTERNAL_STORAGE_SHARE: Int = 124
+
+        val PREF_INVERT_XY: String = "invert_x_y"
+        val PREF_REVERT_X: String = "revert_x"
+        val PREF_REVERT_Y: String = "revert_y"
     }
 }

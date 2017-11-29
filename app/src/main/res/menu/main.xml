@@ -9,6 +9,13 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/action_scan"
+        android:icon="@drawable/ic_arrow_done"
+        android:orderInCategory="99"
+        android:title="@string/action_save"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_save"
         android:icon="@drawable/ic_save"
         android:orderInCategory="99"

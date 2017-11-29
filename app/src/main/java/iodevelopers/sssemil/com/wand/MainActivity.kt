@@ -2,9 +2,7 @@ package iodevelopers.sssemil.com.wand
 
 import android.bluetooth.*
 import android.bluetooth.le.*
-import android.content.ComponentName
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager.FEATURE_BLUETOOTH_LE
 import android.os.Build
 import android.os.Environment
@@ -14,10 +12,12 @@ import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,9 +33,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener, DialogInterface.OnClickListener {
 
     private var bluetoothAdapter: BluetoothAdapter? = null
     private val REQUEST_ENABLE_BT = 1
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var handler: android.os.Handler? = null
 
     private var connectedThread: MainActivity.ConnectedThread? = null
-    private val bufferArray = kotlin.collections.ArrayList<Byte>()
+    private val bufferArray = ArrayList<Byte>()
     private var prevX: Byte = 0
     private var prevY: Byte = 0
     private var connection: android.content.ServiceConnection? = null
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var invertXY = false
     private var revertX = false
     private var revertY = false
+
+    private var scanResultDevices: ArrayList<BluetoothDevice> = ArrayList()
 
     private val gattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
@@ -131,15 +134,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         Log.i("callbackType", callbackType.toString())
                         Log.i("result", result.toString())
-                        val btDevice: BluetoothDevice = result.device
 
-                        connectToDevice(btDevice)
+                        //val btDevice: BluetoothDevice = result.device
+                        //connectToDevice(btDevice)
+                        //onBatchScanResults(arrayListOf(result).toList())
+                        if(!scanResultDevices.contains(result.device)) {
+                            scanResultDevices.add(result.device)
+                            scanAdapter?.add(result.device.toString())
+                        }
                     }
 
                     override fun onBatchScanResults(results: List<ScanResult>) {
                         for (sr in results) {
                             Log.i("ScanResult - Results", sr.toString())
                         }
+
+                        //this@MainActivity.scanResultDevices = results
+
+                        //TODO show alert with list here & hide loading indicator
+
+                        /*val adapter: ArrayAdapter<String> = ArrayAdapter(this@MainActivity,
+                                android.R.layout.select_dialog_singlechoice);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            for (sr in results) {
+                                adapter.add(sr.toString())
+                            }
+                        }
+
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+                        builder.setAdapter(adapter, this@MainActivity)
+                        builder.create().show()*/
                     }
 
                     override fun onScanFailed(errorCode: Int) {
@@ -157,11 +182,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val leScanCallback = BluetoothAdapter.LeScanCallback { device, rssi, scanRecord ->
         runOnUiThread {
             Log.i("onLeScan", device.toString())
-            connectToDevice(device)
+            //connectToDevice(device)
+            if(!scanResultDevices.contains(device)) {
+                scanResultDevices.add(device)
+                scanAdapter?.add(device.toString())
+            }
         }
     }
 
-    private val receiver = object : android.content.BroadcastReceiver() {
+    private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: android.content.Context, intent: android.content.Intent) {
             val action = intent.action
             val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
@@ -175,11 +204,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //Device has disconnected
                 if (device != null && device.name == MainActivity.Companion.BT_DEVICE_NAME) {
                     setStatus(DeviceStatusView.Companion.DISCONNECTED)
-                    startScan()
+                    //startScan()
                 }
             }
         }
     }
+
+    private var scanAdapter: ArrayAdapter<String>? = null
 
     @android.annotation.SuppressLint("HandlerLeak")
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
@@ -329,6 +360,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         val bluetoothManager = getSystemService(android.content.Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
+
+        scanAdapter = ArrayAdapter(this@MainActivity,
+                android.R.layout.select_dialog_singlechoice);
     }
 
     private fun setColor(colorId: Int) {
@@ -382,6 +416,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
                 return true
             }
+            R.id.action_scan -> {
+                //TODO show loading indicator
+
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+                builder.setAdapter(scanAdapter, this@MainActivity)
+                builder.create().show()
+
+                startScan()
+
+                return true
+            }
             R.id.action_save -> {
                 saveDrawings()
                 return true
@@ -394,6 +439,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onClick(p0: DialogInterface?, p1: Int) {
+        connectToDevice(scanResultDevices[p1])
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
@@ -534,7 +584,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         super.onResume()
 
-        startScan()
+        //startScan()
 
         //Thread(Runnable { findWand() }).start()
 
@@ -544,15 +594,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun startScan() {
         Log.i("ble", "startScan")
         if (bluetoothAdapter == null || !bluetoothAdapter!!.isEnabled) {
-            val enableBtIntent = android.content.Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= 21) {
                 leScanner = bluetoothAdapter!!.bluetoothLeScanner
                 settings = ScanSettings.Builder()
                         .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                         .build()
-                filters = java.util.ArrayList<ScanFilter>()
+                filters = ArrayList<ScanFilter>()
             }
             scanLeDevice(true)
         }
@@ -605,19 +655,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
                     bluetoothAdapter!!.stopLeScan(leScanCallback)
                 } else {
-                    leScanner!!.stopScan(getScanCallback())
+                    leScanner?.stopScan(getScanCallback())
                 }
             }, MainActivity.Companion.SCAN_PERIOD)
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
                 bluetoothAdapter!!.startLeScan(leScanCallback)
             } else {
-                leScanner!!.startScan(filters, settings, getScanCallback())
+                leScanner?.startScan(filters, settings, getScanCallback())
             }
         } else {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
                 bluetoothAdapter!!.stopLeScan(leScanCallback)
             } else {
-                leScanner!!.stopScan(getScanCallback())
+                leScanner?.stopScan(getScanCallback())
             }
         }
     }
@@ -742,17 +792,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        when(key){
-            ApiHelper.PREF_TOKEN->{
+        when (key) {
+            ApiHelper.PREF_TOKEN -> {
                 setLoggedIn(sharedPreferences.getString(ApiHelper.Companion.PREF_TOKEN, null) != null)
             }
-            PREF_INVERT_XY->{
+            PREF_INVERT_XY -> {
                 invertXY = sharedPreferences.getBoolean(key, false)
             }
-            PREF_REVERT_X->{
+            PREF_REVERT_X -> {
                 revertX = sharedPreferences.getBoolean(key, false)
             }
-            PREF_REVERT_Y->{
+            PREF_REVERT_Y -> {
                 revertY = sharedPreferences.getBoolean(key, false)
             }
         }

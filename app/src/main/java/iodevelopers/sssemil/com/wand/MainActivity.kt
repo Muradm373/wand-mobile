@@ -1,5 +1,6 @@
 package iodevelopers.sssemil.com.wand
 
+import android.Manifest
 import android.bluetooth.*
 import android.bluetooth.le.*
 import android.content.*
@@ -11,6 +12,7 @@ import android.os.IBinder
 import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -22,6 +24,8 @@ import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.fastaccess.permission.base.PermissionHelper
+import com.phatware.android.WritePadFlagManager
 import com.phatware.android.WritePadManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import iodevelopers.sssemil.com.wand.Account.ApiHelper
@@ -29,9 +33,8 @@ import iodevelopers.sssemil.com.wand.Account.LoginActivity
 import iodevelopers.sssemil.com.wand.Account.SignupActivity
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -197,12 +200,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
                 //Device is now connected
-                if (device != null && device.name == MainActivity.Companion.BT_DEVICE_NAME) {
+                if (device != null && device.name == BT_DEVICE_NAME) {
                     setStatus(DeviceStatusView.Companion.CONNECTED)
                 }
             } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED == action) {
                 //Device has disconnected
-                if (device != null && device.name == MainActivity.Companion.BT_DEVICE_NAME) {
+                if (device != null && device.name == BT_DEVICE_NAME) {
                     setStatus(DeviceStatusView.Companion.DISCONNECTED)
                     //startScan()
                 }
@@ -491,16 +494,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun saveDrawings(requestCode: Int): String? {
-        if (!com.fastaccess.permission.base.PermissionHelper.isPermissionGranted(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), requestCode)
+        if (!PermissionHelper.isPermissionGranted(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), requestCode)
             }
             return null
         } else {
-            val c: java.util.Calendar = java.util.Calendar.getInstance()
+            val c: Calendar = Calendar.getInstance()
 
-            val postfix: String = java.text.SimpleDateFormat("dd-MMM-yyyy hh:mm:ss aa").format(c.time) +
+            val postfix: String = SimpleDateFormat("dd-MMM-yyyy hh:mm:ss aa").format(c.time) +
                     java.util.Random().nextInt()
 
             val startPath: File = File(String.format("%s/Wand/", Environment
@@ -528,7 +531,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             b.compress(android.graphics.Bitmap.CompressFormat.JPEG, 100,
                     FileOutputStream(String.format("%s/wand_%s.jpg", startPath.path, postfix)))
 
-            val out: java.io.PrintWriter = java.io.PrintWriter(String.format("%s/wand_%s.txt", startPath.path,
+            val out = PrintWriter(String.format("%s/wand_%s.txt", startPath.path,
                     postfix))
             out.print(recognized_text.text)
             out.flush()
@@ -546,23 +549,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (id) {
             R.id.nav_about -> {
-                startActivity(android.content.Intent(this, AboutActivity::class.java))
+                startActivity(Intent(this, AboutActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
             R.id.nav_settings -> {
-                startActivity(android.content.Intent(this, SettingsActivity::class.java))
+                startActivity(Intent(this, SettingsActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
             R.id.nav_license -> {
-                startActivity(android.content.Intent(this, LicenseActivity::class.java))
+                startActivity(Intent(this, LicenseActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
             R.id.nav_login -> {
-                startActivity(android.content.Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
             R.id.nav_sign_up -> {
-                startActivity(android.content.Intent(this, SignupActivity::class.java))
+                startActivity(Intent(this, SignupActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
             R.id.nav_logout -> ApiHelper.Companion.logOut(sharedPreferences)
@@ -571,7 +574,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        drawer.closeDrawer(android.support.v4.view.GravityCompat.START)
+        drawer.closeDrawer(GravityCompat.START)
         return true
     }
 
@@ -580,7 +583,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ink_view!!.cleanView(true)
         }
 
-        com.phatware.android.WritePadFlagManager.initialize(this)
+        WritePadFlagManager.initialize(this)
 
         super.onResume()
 
@@ -732,7 +735,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             bluetoothSocket!!.close()
                         } catch (e2: IOException) {
                             Log.e("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.message + ".")
-                            runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
+                            runOnUiThread { setStatus(DeviceStatusView.ERROR) }
                             return
                         }
 
@@ -748,7 +751,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 } catch (e: IOException) {
                     Log.e("Fatal Error", "In onResume() and socket create failed: " + e.message + ".")
 
-                    runOnUiThread { setStatus(DeviceStatusView.ERROR.toInt()) }
+                    runOnUiThread { setStatus(DeviceStatusView.ERROR) }
                     return
                 }
             }
@@ -814,20 +817,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         private var run = true
 
         init {
-            var tmpIn: java.io.InputStream? = null
-            var tmpOut: java.io.OutputStream? = null
+            var tmpIn: InputStream? = null
+            var tmpOut: OutputStream? = null
 
             // Get the input and output streams, using temp objects because
             // member streams are final
             try {
                 tmpIn = mmSocket.inputStream
-            } catch (e: java.io.IOException) {
+            } catch (e: IOException) {
                 Toast.makeText(applicationContext, "Error Input Stream", Toast.LENGTH_SHORT).show()
             }
 
             try {
                 tmpOut = mmSocket.outputStream
-            } catch (e: java.io.IOException) {
+            } catch (e: IOException) {
                 Toast.makeText(applicationContext, "Error Output Stream", Toast.LENGTH_SHORT).show()
             }
 
@@ -886,7 +889,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             try {
                 mmSocket.close()
-            } catch (e: java.io.IOException) {
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
 

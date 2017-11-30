@@ -39,23 +39,23 @@
       <file leaf-file-name="MainActivity.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/iodevelopers/sssemil/com/wand/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="883" column="0" lean-forward="true" selection-start-line="883" selection-start-column="0" selection-end-line="883" selection-end-column="0" />
+            <state relative-caret-position="284">
+              <caret line="780" column="10" lean-forward="false" selection-start-line="780" selection-start-column="10" selection-end-line="780" selection-end-column="10" />
               <folding>
                 <element signature="e#39#1483#0" expanded="true" />
-                <element signature="e#9872#9903#1" expanded="true" />
-                <element signature="e#9905#9937#1" expanded="true" />
-                <element signature="e#15556#15595#1" expanded="true" />
-                <element signature="e#19090#19127#1" expanded="true" />
-                <element signature="e#20568#20599#1" expanded="true" />
-                <element signature="e#22537#22565#0" expanded="true" />
-                <element signature="e#27744#27783#1" expanded="true" />
-                <element signature="e#28433#28465#1" expanded="true" />
-                <element signature="e#30648#30669#1" expanded="true" />
-                <element signature="e#30865#30884#1" expanded="true" />
-                <element signature="e#31077#31095#1" expanded="true" />
-                <element signature="e#31283#31297#1" expanded="true" />
-                <element signature="e#31905#31924#1" expanded="true" />
+                <element signature="e#9874#9905#1" expanded="true" />
+                <element signature="e#9907#9939#1" expanded="true" />
+                <element signature="e#15558#15597#1" expanded="true" />
+                <element signature="e#19092#19129#1" expanded="true" />
+                <element signature="e#20570#20601#1" expanded="true" />
+                <element signature="e#22539#22567#0" expanded="true" />
+                <element signature="e#27746#27785#1" expanded="true" />
+                <element signature="e#28435#28467#1" expanded="true" />
+                <element signature="e#30686#30707#1" expanded="true" />
+                <element signature="e#30919#30938#1" expanded="true" />
+                <element signature="e#31147#31165#1" expanded="true" />
+                <element signature="e#31369#31383#1" expanded="true" />
+                <element signature="e#32015#32034#1" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2458,7 +2458,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512050813251" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512053066448" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2506,7 +2506,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512050813251" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512053066448" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2668,7 +2668,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512050813254" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512053066452" />
       </method>
     </configuration>
     <list size="1">
@@ -2705,7 +2705,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511982958827</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Cleanup">
+      <created>1512050835261</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1512050835261</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -2713,6 +2720,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="960" height="1053" extended-state="4" />
+    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32930845" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2723,7 +2731,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33369923" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33369923" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41163558" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2788,7 +2796,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix state and add position circle" />
     <MESSAGE value="List devices..." />
-    <option name="LAST_COMMIT_MESSAGE" value="List devices..." />
+    <MESSAGE value="Cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3142,23 +3151,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/iodevelopers/sssemil/com/wand/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="883" column="0" lean-forward="true" selection-start-line="883" selection-start-column="0" selection-end-line="883" selection-end-column="0" />
+        <state relative-caret-position="284">
+          <caret line="780" column="10" lean-forward="false" selection-start-line="780" selection-start-column="10" selection-end-line="780" selection-end-column="10" />
           <folding>
             <element signature="e#39#1483#0" expanded="true" />
-            <element signature="e#9872#9903#1" expanded="true" />
-            <element signature="e#9905#9937#1" expanded="true" />
-            <element signature="e#15556#15595#1" expanded="true" />
-            <element signature="e#19090#19127#1" expanded="true" />
-            <element signature="e#20568#20599#1" expanded="true" />
-            <element signature="e#22537#22565#0" expanded="true" />
-            <element signature="e#27744#27783#1" expanded="true" />
-            <element signature="e#28433#28465#1" expanded="true" />
-            <element signature="e#30648#30669#1" expanded="true" />
-            <element signature="e#30865#30884#1" expanded="true" />
-            <element signature="e#31077#31095#1" expanded="true" />
-            <element signature="e#31283#31297#1" expanded="true" />
-            <element signature="e#31905#31924#1" expanded="true" />
+            <element signature="e#9874#9905#1" expanded="true" />
+            <element signature="e#9907#9939#1" expanded="true" />
+            <element signature="e#15558#15597#1" expanded="true" />
+            <element signature="e#19092#19129#1" expanded="true" />
+            <element signature="e#20570#20601#1" expanded="true" />
+            <element signature="e#22539#22567#0" expanded="true" />
+            <element signature="e#27746#27785#1" expanded="true" />
+            <element signature="e#28435#28467#1" expanded="true" />
+            <element signature="e#30686#30707#1" expanded="true" />
+            <element signature="e#30919#30938#1" expanded="true" />
+            <element signature="e#31147#31165#1" expanded="true" />
+            <element signature="e#31369#31383#1" expanded="true" />
+            <element signature="e#32015#32034#1" expanded="true" />
           </folding>
         </state>
       </provider>

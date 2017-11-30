@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         //val btDevice: BluetoothDevice = result.device
                         //connectToDevice(btDevice)
                         //onBatchScanResults(arrayListOf(result).toList())
-                        if(!scanResultDevices.contains(result.device)) {
+                        if (!scanResultDevices.contains(result.device)) {
                             scanResultDevices.add(result.device)
                             scanAdapter?.add(result.device.toString())
                         }
@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         runOnUiThread {
             Log.i("onLeScan", device.toString())
             //connectToDevice(device)
-            if(!scanResultDevices.contains(device)) {
+            if (!scanResultDevices.contains(device)) {
                 scanResultDevices.add(device)
                 scanAdapter?.add(device.toString())
             }
@@ -759,25 +759,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun setStatus(status: Int) {
-        when (status) {
-            DeviceStatusView.Companion.DISCONNECTED -> {
-                supportActionBar?.setSubtitle(R.string.disconnected)
-                //iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
+        runOnUiThread({
+            when (status) {
+                DeviceStatusView.Companion.DISCONNECTED -> {
+                    supportActionBar?.setSubtitle(R.string.disconnected)
+                    //iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
+                }
+                DeviceStatusView.Companion.CONNECTING -> {
+                    supportActionBar?.setSubtitle(R.string.connecting)
+                    //iconView!!.setBackgroundResource(R.drawable.ic_connecting)
+                }
+                DeviceStatusView.Companion.CONNECTED -> {
+                    supportActionBar?.setSubtitle(R.string.connected)
+                    //iconView!!.setBackgroundResource(R.drawable.ic_connected)
+                }
+                DeviceStatusView.Companion.ERROR -> {
+                    supportActionBar?.setSubtitle(R.string.error)
+                    //iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
+                }
             }
-            DeviceStatusView.Companion.CONNECTING -> {
-                supportActionBar?.setSubtitle(R.string.connecting)
-                //iconView!!.setBackgroundResource(R.drawable.ic_connecting)
-            }
-            DeviceStatusView.Companion.CONNECTED -> {
-                supportActionBar?.setSubtitle(R.string.connected)
-                //iconView!!.setBackgroundResource(R.drawable.ic_connected)
-            }
-            DeviceStatusView.Companion.ERROR -> {
-                supportActionBar?.setSubtitle(R.string.error)
-                //iconView!!.setBackgroundResource(R.drawable.ic_disconnected)
-            }
-        }
+        })
     }
+
 
     private fun setLoggedIn(menuLoggedIn: Boolean) {
         logoutMenuItem!!.isVisible = menuLoggedIn

@@ -227,8 +227,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        setStatus(DeviceStatusView.Companion.DISCONNECTED)
+        //setStatus(DeviceStatusView.Companion.DISCONNECTED)
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = android.support.v7.app.ActionBarDrawerToggle(
@@ -372,7 +373,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         currentColorId = colorId
         ink_view.brushColor = colorId
         layoutline.setBackgroundColor(colorId)
-        supportActionBar?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(colorId))
     }
 
     private fun registerReceivers() {
@@ -428,14 +428,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 startScan()
 
-                return true
-            }
-            R.id.action_save -> {
-                saveDrawings()
-                return true
-            }
-            R.id.action_share -> {
-                shareDrawings()
                 return true
             }
             else -> {
@@ -563,6 +555,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_login -> {
                 startActivity(Intent(this, LoginActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
+            }
+            R.id.action_save -> {
+                saveDrawings()
+                return true
+            }
+            R.id.action_share -> {
+                shareDrawings()
+                return true
             }
             R.id.nav_sign_up -> {
                 startActivity(Intent(this, SignupActivity::class.java))

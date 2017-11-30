@@ -5,13 +5,27 @@
         <menu>
             <item
                 android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
                 android:title="@string/log_out" />
             <item
                 android:id="@+id/nav_login"
+                android:icon="@drawable/ic_action_name"
                 android:title="@string/log_in" />
             <item
                 android:id="@+id/nav_sign_up"
+                android:icon="@drawable/ic_add_account"
                 android:title="@string/sign_up" />
+
+            <item
+                android:id="@+id/action_save"
+                android:icon="@drawable/ic_save"
+                android:orderInCategory="99"
+                android:title="@string/action_save" />
+            <item
+                android:id="@+id/action_share"
+                android:icon="@drawable/ic_act_share"
+                android:orderInCategory="98"
+                android:title="@string/share"/>
         </menu>
     </item>
 
@@ -19,12 +33,15 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
                 android:title="@string/settings" />
             <item
                 android:id="@+id/nav_license"
+                android:icon="@drawable/ic_license"
                 android:title="@string/license" />
             <item
                 android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
                 android:title="@string/about" />
         </menu>
     </item>

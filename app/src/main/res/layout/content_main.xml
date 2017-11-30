@@ -9,29 +9,14 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <iodevelopers.sssemil.com.wand.InkView
-        android:id="@+id/ink_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/line"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_above="@+id/recognized_text"
-        android:background="@color/oil" />
-
     <EditText
         android:id="@+id/recognized_text"
+        android:textColor="@color/black"
+        android:gravity="top|start"
         android:layout_width="wrap_content"
-        android:layout_height="100sp"
+        android:layout_height="match_parent"
         android:ems="10"
+        android:cursorVisible="false"
         android:inputType="textMultiLine"
         android:text="…"
         android:layout_alignParentBottom="true"
@@ -39,5 +24,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <iodevelopers.sssemil.com.wand.InkView
+        android:id="@+id/ink_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/recognized_text"
+        android:layout_alignParentStart="true"  />
+
+
 
 </RelativeLayout>

@@ -55,7 +55,7 @@ import com.phatware.android.WritePadManager
 class InkView @JvmOverloads constructor(context: android.content.Context, attrs: android.util.AttributeSet? = null, defStyle: Int = 0) : android.view.View(context, attrs, defStyle), OnInkViewListener {
     private val GRID_GAP = 65f
     var brushColor = android.graphics.Color.BLUE
-    var brushWidth = 3
+    var brushWidth = 8
     var wordsss: String? = null
         private set
     private var textView: android.widget.TextView? = null
@@ -106,11 +106,7 @@ class InkView @JvmOverloads constructor(context: android.content.Context, attrs:
         paint.style = android.graphics.Paint.Style.STROKE
         paint.strokeJoin = android.graphics.Paint.Join.ROUND
         paint.strokeCap = android.graphics.Paint.Cap.ROUND
-        paint.strokeWidth = 3f
 
-        resultPaint.textSize = 32f
-        resultPaint.isAntiAlias = true
-        resultPaint.setARGB(0xff, 0x00, 0x00, 0x00)
     }
 
     override fun cleanView(emptyAll: Boolean) {

@@ -10,21 +10,8 @@
 
     <item
         android:id="@+id/action_scan"
-        android:icon="@drawable/ic_arrow_done"
+        android:icon="@drawable/ic_bluetooth"
         android:orderInCategory="99"
         android:title="@string/action_save"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_save"
-        android:icon="@drawable/ic_save"
-        android:orderInCategory="99"
-        android:title="@string/action_save"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_share"
-        android:icon="@drawable/ic_share"
-        android:orderInCategory="98"
-        android:title="@string/share"
         app:showAsAction="always" />
 </menu>

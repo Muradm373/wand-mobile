@@ -5,6 +5,7 @@ import android.bluetooth.*
 import android.bluetooth.le.*
 import android.content.*
 import android.content.pm.PackageManager.FEATURE_BLUETOOTH_LE
+import android.hardware.SensorAdditionalInfo
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
@@ -12,6 +13,7 @@ import android.os.IBinder
 import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.design.widget.NavigationView
+import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AlertDialog
@@ -39,8 +41,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-        SharedPreferences.OnSharedPreferenceChangeListener, DialogInterface.OnClickListener {
+        SharedPreferences.OnSharedPreferenceChangeListener, DialogInterface.OnClickListener, SesitivityDialog.SensListener {
 
+
+    private var sens = 1.5f;
     private var bluetoothAdapter: BluetoothAdapter? = null
     private val REQUEST_ENABLE_BT = 1
     private var scanHandler: Handler? = null
@@ -49,6 +53,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var filters: List<ScanFilter>? = null
     private var bluetoothGatt: BluetoothGatt? = null
     private var bluetoothGattCharacteristic: BluetoothGattCharacteristic? = null
+
+
 
     internal var boundService: RecognizerService? = null
     private var handler: android.os.Handler? = null
@@ -97,6 +103,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
+
+
         override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
             val services = gatt.services
             Log.i("onServicesDiscovered", services.toString())
@@ -127,6 +135,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             handler!!.obtainMessage(0, 0, 0, characteristic.value).sendToTarget()
         }
+    }
+
+
+    override fun sensListener(num: Float) {
+        Log.d("Sense", "Done");
+        sens =  num;
+        Log.d("Sense", ""+ sens);
     }
 
     private fun getScanCallback(): ScanCallback? {
@@ -332,10 +347,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 }*/
 
                                 ink_view!!.onWandEvent(
-                                        (
+                                        3f * (
                                                 if (invertXY) bytes[0].toFloat()
                                                 else bytes[1].toFloat()) * (if (revertX) -1 else 1),
-                                        (
+                                         3f* (
                                                 if (invertXY) bytes[1].toFloat()
                                                 else bytes[0].toFloat()) * (if (revertY) -1 else 1),
                                         bytes[2] != 1.toByte())
@@ -568,8 +583,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this, SignupActivity::class.java))
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out)
             }
-            R.id.nav_logout -> ApiHelper.Companion.logOut(sharedPreferences)
-            else -> {
+            R.id.nav_sensitivity->{
+                val pop = SesitivityDialog()
+                val fm = this@MainActivity.fragmentManager
+
+                pop.show(fm, "Choose sensitivity")
             }
         }
 
@@ -905,8 +923,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     companion object {
+        public var sens_t = 3f
         private val SCAN_PERIOD: Long = 10000
-        val BT_DEVICE_NAME = "SPP-CA"
+        val BT_DEVICE_NAME = "MLT-BT05"
         private val MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
         private val BLE_UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb")
         private val REQUEST_READ_EXTERNAL_STORAGE_SAVE: Int = 123
@@ -915,5 +934,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val PREF_INVERT_XY: String = "invert_x_y"
         val PREF_REVERT_X: String = "revert_x"
         val PREF_REVERT_Y: String = "revert_y"
+
     }
 }
